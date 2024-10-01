@@ -67,7 +67,7 @@ class CadastrarDispenser(Screen):
         data = {
             "code": code,
             "water": 0,
-            "feed": 0
+            "food": 0
         }
 
         headers = {            
@@ -102,6 +102,34 @@ class CadastrarDispenser(Screen):
                       content=Label(text=message),
                       size_hint=(0.8, 0.4))
         popup.open()
+
+class ReservoirMonitor(Screen):
+    water_level = NumericProperty(0)
+    food_level = NumericProperty(0)
+
+    def on_pre_enter(self):
+        super().on_pre_enter()
+        self.update_levels()
+
+    def update_levels(self):
+        app = MDApp.get_running_app()
+        ip_address = app.get_ip_address()
+        dispenser_code = app.get_dispenser_code()
+
+        if not dispenser_code:
+            print("Nenhum dispenser codastrado")
+            return
+
+        url = f"http://{ip_address}:8000/dispenser/levels/?code={dispenser_code}"
+
+        try:
+            response = requests.get(url)
+            if response.status_code == 200:
+                data = response.json()
+                self.water_level = data["water"]
+                self.food_level = data["food"]
+        except requests.exceptions.RequestException as e:
+            print(f"Erro de conexão: {e}")
 
 
 class RegistrarUsuario(Screen):
@@ -165,6 +193,7 @@ class HomeScreen(Screen):
     def on_pre_enter(self):     
         super().on_pre_enter()
         self.load_dispenser_data()  
+        self.update_dispenser_levels()
         # Bind as propriedades water_level e food_level ao método check_levels
         self.bind(water_level=self.check_levels, food_level=self.check_levels)
         self.check_levels()  # Executa check_levels quando a tela é exibida
@@ -177,6 +206,28 @@ class HomeScreen(Screen):
             self.ids.dispenser_code_label.text = f"Dispenser: {dispenser_code}"
         else:
             self.ids.dispenser_code_label.text = "Nenhum dispenser cadastrado"
+
+    def update_dispenser_levels(self):
+        app = MDApp.get_running_app()
+        ip_address = app.get_ip_address()
+        dispenser_code = app.get_dispenser_code()
+
+        if not dispenser_code:
+            print("Nenhum dispenser codastrado")
+            return
+
+        url = f"http://{ip_address}:8000/dispenser/levels/?code={dispenser_code}"
+
+        try:
+            response = requests.get(url)
+            if response.status_code == 200:
+                data = response.json()
+                self.water_level = data["water"]
+                self.food_level = data["food"]
+        except requests.exceptions.RequestException as e:
+            print(f"Erro de conexão: {e}")
+
+
     def check_levels(self, *args):
         # Calcula a quantidade necessária para atingir 41% de água e ração
         water_diff = max(0, 41 - self.water_level)
@@ -225,6 +276,7 @@ class SmartPetz(MDApp):
         # Carrega os arquivos KV para as telas
         Builder.load_file("./UI/pre_splash.kv")
         Builder.load_file("./UI/login.kv")
+        Builder.load_file("./UI/reservoir_monitor.kv")
         Builder.load_file("./UI/registrar_usuario.kv")
         Builder.load_file("./UI/cadastrar_dispenser.kv")
         Builder.load_file("./UI/configurar_ip.kv")
@@ -245,12 +297,13 @@ class SmartPetz(MDApp):
         self.screen_manager.add_widget(MenuScreen(name="menu_screen"))
         self.screen_manager.add_widget(ConfigurarIP(name="configurar_ip"))
         self.screen_manager.add_widget(CadastrarDispenser(name="cadastrar_dispenser"))
+        self.screen_manager.add_widget(ReservoirMonitor(name="reservoir_monitor"))
         self.screen_manager.current = "pre_splash"  # Navega para a tela de pré-carregamento
 
         if not ip_address:
             self.screen_manager.current = "configurar_ip"
         else:
-            self.screen_manager.current = "pre_splash"       
+            self.screen_manager.current = "pre_splash"
 
         return self.screen_manager
 
@@ -318,6 +371,6 @@ class SmartPetz(MDApp):
 
     def go_back_to_home(self):
         # Volta para a tela de Definir Porção
-        self.root.current = "home_screen"
+        self.root.current = "home_screen"    
 
 SmartPetz().run()

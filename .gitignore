@@ -6,8 +6,10 @@ __pycache__/
 # C extensions
 *.so
 
-# Folder binary
+# Folder and files
 bin/
+config.txt
+dispenser_code.txt
 
 # Distribution / packaging
 .Python

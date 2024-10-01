@@ -1,0 +1,66 @@
+<ReservoirMonitor>:
+    MDBoxLayout:
+        orientation: 'vertical'
+        MDTopAppBar:
+            title: "Monitorar Reservatórios"
+            left_action_items: [["arrow-left", lambda x: app.go_back_to_pre_splash()]]
+        
+        MDBoxLayout:
+            orientation: 'horizontal'
+            padding: "10dp"
+            spacing: "10dp"
+            
+            MDBoxLayout:
+                orientation: 'vertical'
+                MDLabel:
+                    text: "Ração"
+                    halign: 'center'
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    canvas:
+                        Color:
+                            rgba: 1, 0, 0, 1  # Red
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size[0], self.size[1] * (root.food_level / 100)
+                    MDLabel:
+                        text: f"{root.food_level}%"
+                        halign: 'center'
+                        pos_hint: {'center_y': 0.1}
+                
+            MDBoxLayout:
+                orientation: 'vertical'
+                MDLabel:
+                    text: "Água"
+                    halign: 'center'
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    canvas:
+                        Color:
+                            rgba: 1, 1, 0, 1  # Yellow
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size[0], self.size[1] * (root.water_level / 100)
+                    MDLabel:
+                        text: f"{root.water_level}%"
+                        halign: 'center'
+                        pos_hint: {'center_y': 0.1}
+        
+        MDBottomNavigation:
+            MDBottomNavigationItem:
+                name: 'screen 1'
+                icon: 'home'
+                on_tab_press: app.switch_screen('home_screen')
+            MDBottomNavigationItem:
+                name: 'screen 2'
+                icon: 'needle'
+            MDBottomNavigationItem:
+                name: 'screen 3'
+                icon: 'file-document'
+            MDBottomNavigationItem:
+                name: 'screen 4'
+                icon: 'chart-bar'
+                on_tab_press: app.switch_screen('reservoir_monitor')
+            MDBottomNavigationItem:
+                name: 'screen 5'
+                icon: 'cog'
