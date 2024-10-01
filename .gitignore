@@ -10,6 +10,7 @@ __pycache__/
 bin/
 config.txt
 dispenser_code.txt
+token.txt
 
 # Distribution / packaging
 .Python

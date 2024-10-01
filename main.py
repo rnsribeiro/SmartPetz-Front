@@ -34,6 +34,7 @@ class Login(Screen):
             if response.status_code == 200:
                 # Se o login for bem-sucedido, recebe o token e navega para a tela 'home_screen'
                 token = response.json().get("access_token")
+                app.save_token(token)
                 print("Login bem-sucedido, token:", token)
                 self.manager.current = "home_screen"
             else:
@@ -349,6 +350,11 @@ class SmartPetz(MDApp):
             with open("token.txt", "r") as token_file:
                 return token_file.read().strip()
         return None
+
+    def save_token(self, token):
+        # Salva o token no arquivo de configuração
+        with open("token.txt", "w") as token_file:
+            token_file.write(token)
 
     def get_ip_address(self):
         # Lê o IP do arquivo de configuração, se existir
