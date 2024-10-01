@@ -1,0 +1,53 @@
+<CadastrarDispenser>:
+    name: "cadastrar_dispenser"
+    MDFloatLayout:
+        md_bg_color: 1, 1, 1, 1
+
+        MDIconButton:
+            icon: "chevron-left"
+            user_font_size: "35sp"
+            pos_hint: {"center_y": .95}
+            on_release: app.go_back_to_pre_splash()
+
+        MDLabel:
+            font_size: "18sp"
+            font_name: r"./Fonts/Poppins/Poppins-Regular.ttf"
+            pos_hint: {"center_x": .615, "center_y": .949}
+
+        Image:
+            source: r"./Assets/Petz-Splash.png"
+            size_hint: .40, .40
+            pos_hint: {"center_x": .50, "center_y": .8}
+
+        MDLabel:
+            text: "Cadastrar Dispenser"
+            font_size: "28sp"
+            font_name: r"./Fonts/Poppins/Poppins-SemiBold.ttf"
+            color: 120/255, 120/255, 120/255, 1
+            pos_hint: {"center_x": .6, "center_y": .64}
+
+        # Código do Dispenser
+        MDFloatLayout:
+            size_hint: .79, .08
+            pos_hint: {"center_x": .5, "center_y": .58}
+
+            MDTextField:
+                id: dispenser_code
+                hint_text: "Código do Dispenser"
+                mode: "line"
+                pos_hint: {"center_x": .5, "center_y": .4}
+                size_hint_x: .8
+                line_color_normal: 120/255, 120/255, 120/255, 1
+                line_color_focus: 0, 0, 1, 1
+                cursor_color: 0, 0, 0, 1
+                font_size: "17sp"
+                multiline: False        
+
+        MDRaisedButton:
+            text: "Cadastrar"
+            md_bg_color: 0, 0, 0, 1
+            text_color: 1, 1, 1, 1
+            pos_hint: {"center_x": .5, "center_y": .3}
+            size_hint_x: .8
+            on_release:
+                root.cadastrar_dispenser(dispenser_code.text)

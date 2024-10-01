@@ -1,0 +1,33 @@
+MDScreen:
+    name: "pre_splash"
+    MDFloatLayout:
+        Image:
+            source: r"./Assets/Petz-Splash.png"
+            allow_stretch: True
+            keep_ratio: False
+            size_hint: (1, 1)  # Faz a imagem preencher toda a tela
+        MDLabel:
+            text: "Smart Petz"
+            pos_hint: {"center_x": .5, "center_y": .35}  # Movido mais para cima
+            halign: "center"
+            theme_text_color: "Custom"
+            text_color: 1, 1, 1, 1
+            font_size: "35sp"
+            font_name: r"./Fonts/Poppins/Poppins-SemiBold.ttf"
+        MDLabel:
+            text: "Descubra novos meios de\ncuidar do seu amigo"
+            pos_hint: {"center_x": .5, "center_y": .25}  # Movido mais para cima
+            halign: "center"
+            theme_text_color: "Custom"
+            text_color: 1, 1, 1, 1
+            font_size: "13sp"
+            font_name: r"./Fonts/Poppins/Poppins-Regular.ttf"
+        MDRaisedButton:
+            text: "Começar"
+            md_bg_color: 0, 0, 0, 0  # Fundo transparente
+            text_color: 1, 1, 1, 1  # Texto branco
+            size_hint: .6, .06  # Tamanho reduzido
+            pos_hint: {"center_x": .5, "center_y": .15}  # Movido mais para cima
+            on_release: app.switch_screen('menu_screen')  # Corrigido para chamar o método existente
+            line_color: 1, 1, 1, 1  # Cor da borda branca
+            line_width: 1  # Espessura da borda

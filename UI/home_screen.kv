@@ -1,0 +1,71 @@
+<HomeScreen>:    
+    MDFloatLayout:
+        MDIconButton:
+            icon: "chevron-left"
+            user_font_size: "35sp"
+            pos_hint: {"center_y": .95}
+            on_release: app.go_back_to_pre_splash()
+            
+        # Título "Home" centralizado na parte superior, acima da imagem
+        MDLabel:
+            text: "Home"
+            font_size: "28sp"
+            bold: True
+            pos_hint: {"center_x": .5, "center_y": .85}
+            halign: "center"
+            theme_text_color: "Primary"
+
+        # Imagem personalizada para "Alimentar Agora" centralizada
+        Image:
+            source: "./Assets/racao.jfif"
+            size_hint: None, None
+            size: dp(120), dp(120)
+            pos_hint: {"center_x": .5, "center_y": .65}
+            allow_stretch: True
+            keep_ratio: True
+            on_touch_down: root.check_levels()
+
+        # Texto "Alimente-se agora!" centralizado abaixo da imagem
+        MDLabel:
+            id: alimente_se_label
+            text: "Alimente-se agora!"
+            font_size: "20sp"
+            halign: "center"
+            pos_hint: {"center_x": .5, "center_y": .55}
+            theme_text_color: "Secondary"
+        
+        MDLabel:
+            id: dispenser_code_label
+            text: "Nenhum dispenser cadastrado!"
+            font_size: "18sp"
+            halign: "center"
+            pos_hint: {"center_x": .5, "center_y": .75}
+            theme_text_color: "Secondary"
+
+        # Texto para a quantidade faltante centralizado abaixo do aviso de alimento
+        MDLabel:
+            id: quantidade_faltante_label
+            text: ""
+            font_size: "18sp"
+            halign: "center"
+            pos_hint: {"center_x": .5, "center_y": .45}
+            theme_text_color: "Hint"
+
+        # Avisos sobre o nível de ração e água centralizados
+        MDBoxLayout:
+            orientation: 'vertical'
+            size_hint: .8, None
+            height: dp(100)
+            pos_hint: {"center_x": .5, "center_y": .25}
+
+            MDLabel:
+                id: food_warning
+                text: "Nível de ração está baixo!"
+                font_size: "18sp"
+                halign: "center"
+
+            MDLabel:
+                id: water_warning
+                text: "Nível de água está baixo!"
+                font_size: "18sp"
+                halign: "center"

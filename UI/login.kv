@@ -1,0 +1,101 @@
+<Login>:
+    name: "login"
+    MDFloatLayout:
+        md_bg_color: 1, 1, 1, 1
+
+        MDIconButton:
+            icon: "chevron-left"
+            user_font_size: "35sp"
+            pos_hint: {"center_y": .95}
+            on_release: app.go_back_to_pre_splash()
+
+        MDLabel:
+            font_size: "18sp"
+            font_name: r"./Fonts/Poppins/Poppins-Regular.ttf"
+            pos_hint: {"center_x": .615, "center_y": .949}
+
+        Image:
+            source: r"./Assets/Petz.png"
+            size_hint: .26, .26
+            pos_hint: {"center_x": .50, "center_y": .7}
+
+        MDLabel:
+            text: "Login"
+            font_size: "28sp"
+            font_name: r"./Fonts/Poppins/Poppins-SemiBold.ttf"
+            color: 120/255, 120/255, 120/255, 1
+            pos_hint: {"center_x": .5, "center_y": .58}
+            halign: "center"
+
+        # Campo de Usuário com ícone à direita
+        MDFloatLayout:
+            size_hint: .79, .08
+            pos_hint: {"center_x": .5, "center_y": .40}
+
+            MDTextField:
+                id: user_field
+                hint_text: "Usuário"
+                mode: "line"
+                pos_hint: {"center_x": .5, "center_y": .5}
+                size_hint_x: .8
+                padding: [dp(10), dp(10)]
+                line_color_normal: 120/255, 120/255, 120/255, 1
+                line_color_focus: 0, 0, 1, 1
+                cursor_color: 0, 0, 0, 1
+                font_size: "17sp"
+                multiline: False
+                height: dp(50)
+
+            MDIconButton:
+                icon: "account"
+                pos_hint: {"center_y": .5, "right": 1}
+                size_hint: None, None
+                size: dp(25), dp(25)
+
+        # Campo de Senha com ícone de visibilidade à direita
+        MDFloatLayout:
+            size_hint: .79, .08
+            pos_hint: {"center_x": .5, "center_y": .28}
+
+            MDTextField:
+                id: password_field
+                hint_text: "Senha"
+                mode: "line"
+                pos_hint: {"center_x": .5, "center_y": .5}
+                size_hint_x: .8
+                padding: [dp(10), dp(10)]
+                line_color_normal: 120/255, 120/255, 120/255, 1
+                line_color_focus: 0, 0, 1, 1
+                cursor_color: 0, 0, 0, 1
+                font_size: "17sp"
+                multiline: False
+                password: True
+                height: dp(50)
+
+            MDIconButton:
+                id: toggle_password_visibility
+                icon: "eye-off"
+                pos_hint: {"center_y": .5, "right": 1}
+                size_hint: None, None
+                size: dp(25), dp(25)
+                on_release:
+                    password_field.password = not password_field.password
+                    toggle_password_visibility.icon = "eye" if password_field.password else "eye-off"
+
+        MDRaisedButton:
+            text: "Entrar"
+            md_bg_color: 0, 0, 0, 1
+            text_color: 1, 1, 1, 1
+            size_hint: .79, .08
+            pos_hint: {"center_x": .5, "center_y": .15}
+            on_release:
+                root.do_login(user_field.text, password_field.text)
+
+        MDTextButton:
+            text: "Criar conta"
+            font_size: "13sp"
+            pos_hint: {"center_x": .5, "center_y": .07}
+            halign: "center"
+            color: 120/255, 120/255, 120/255, 1
+            on_release:
+                app.go_to_registrar()

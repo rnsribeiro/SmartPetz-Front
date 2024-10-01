@@ -1,0 +1,36 @@
+<ConfigurarIP>:
+    name: "configurar_ip"
+    MDFloatLayout:
+        md_bg_color: 1, 1, 1, 1
+
+        MDIconButton:
+            icon: "chevron-left"
+            user_font_size: "35sp"
+            pos_hint: {"center_y": .95}
+            on_release: app.go_back_to_pre_splash()
+
+        MDLabel:
+            text: "Configurar Endereço IP"
+            font_size: "28sp"
+            pos_hint: {"center_x": .5, "center_y": .85}
+            halign: "center"
+
+        MDTextField:
+            id: ip_input
+            hint_text: "Insira o Endereço IP do Servidor"
+            mode: "line"
+            pos_hint: {"center_x": .5, "center_y": .5}
+            size_hint_x: .8
+            line_color_normal: 120/255, 120/255, 120/255, 1
+            line_color_focus: 0, 0, 1, 1
+            cursor_color: 0, 0, 0, 1
+            font_size: "17sp"
+            multiline: False
+
+        MDRaisedButton:
+            text: "Salvar"
+            md_bg_color: 0, 0, 0, 1
+            text_color: 1, 1, 1, 1
+            size_hint: .6, .08
+            pos_hint: {"center_x": .5, "center_y": .3}
+            on_release: app.save_ip(ip_input.text)
