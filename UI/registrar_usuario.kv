@@ -3,16 +3,12 @@
     MDFloatLayout:
         md_bg_color: 1, 1, 1, 1
 
-        MDIconButton:
-            icon: "chevron-left"
-            user_font_size: "35sp"
-            pos_hint: {"center_y": .95}
-            on_release: app.go_back_to_pre_splash()
-
-        MDLabel:
-            font_size: "18sp"
-            font_name: r"./Fonts/Poppins/Poppins-Regular.ttf"
-            pos_hint: {"center_x": .615, "center_y": .949}
+        MDTopAppBar:
+            title: ""
+            left_action_items: [["chevron-left", lambda x: app.switch_screen('menu_screen')]]
+            md_bg_color: 0, 0, 0, 1  # Fundo preto
+            pos_hint: {"top": 1}  # Garante que a barra fique no topo
+            elevation: 4
 
         Image:
             source: r"./Assets/Petz-Splash.png"
@@ -29,7 +25,7 @@
         # UserName
         MDFloatLayout:
             size_hint: .79, .08
-            pos_hint: {"center_x": .5, "center_y": .58}  # Alterado para ajustar posição           
+            pos_hint: {"center_x": .5, "center_y": .58}
 
             MDTextField:
                 id: username
@@ -46,7 +42,7 @@
         # Nome
         MDFloatLayout:
             size_hint: .79, .08
-            pos_hint: {"center_x": .5, "center_y": .48}  # Ajuste da posição para não sobrepor com UserName          
+            pos_hint: {"center_x": .5, "center_y": .48}
 
             MDTextField:
                 id: nameUsuario
@@ -63,7 +59,7 @@
         # E-mail
         MDFloatLayout:
             size_hint: .79, .08
-            pos_hint: {"center_x": .5, "center_y": .38}  # Ajuste para e-mail
+            pos_hint: {"center_x": .5, "center_y": .38}
         
             MDTextField:
                 id: emailUsuario
@@ -80,7 +76,7 @@
         # Senha
         MDFloatLayout:
             size_hint: .79, .08
-            pos_hint: {"center_x": .5, "center_y": .28}  # Ajuste para senha       
+            pos_hint: {"center_x": .5, "center_y": .28}
 
             MDTextField:
                 id: senhaUsuario
@@ -98,7 +94,7 @@
         # Confirmar senha
         MDFloatLayout:
             size_hint: .79, .08
-            pos_hint: {"center_x": .5, "center_y": .18}  # Ajuste para confirmar senha         
+            pos_hint: {"center_x": .5, "center_y": .18}
 
             MDTextField:
                 id: user_confirma_senha
@@ -121,4 +117,3 @@
             size_hint_x: .8
             on_release:
                 root.registrar_usuario(username.text, nameUsuario.text, emailUsuario.text, senhaUsuario.text)
-

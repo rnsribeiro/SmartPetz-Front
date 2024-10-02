@@ -20,11 +20,12 @@
             pos_hint: {"center_x": .50, "center_y": .8}
 
         MDLabel:
-            text: "Cadastrar Dispenser"
+            text: "Dispenser"
+            halign: "center"  # Alinha o texto horizontalmente no centro
             font_size: "28sp"
             font_name: r"./Fonts/Poppins/Poppins-SemiBold.ttf"
             color: 120/255, 120/255, 120/255, 1
-            pos_hint: {"center_x": .6, "center_y": .64}
+            pos_hint: {"center_y": .64}
 
         # Código do Dispenser
         MDFloatLayout:
@@ -47,7 +48,16 @@
             text: "Cadastrar"
             md_bg_color: 0, 0, 0, 1
             text_color: 1, 1, 1, 1
-            pos_hint: {"center_x": .5, "center_y": .3}
+            pos_hint: {"center_x": .5, "center_y": .4}
             size_hint_x: .8
             on_release:
                 root.cadastrar_dispenser(dispenser_code.text)
+
+        MDRaisedButton:
+            text: "Configurar"
+            md_bg_color: 0, 0, 0, 1
+            text_color: 1, 1, 1, 1
+            pos_hint: {"center_x": .5, "center_y": .3}
+            size_hint_x: .8
+            on_release:
+                root.configurar_dispenser(dispenser_code.text)

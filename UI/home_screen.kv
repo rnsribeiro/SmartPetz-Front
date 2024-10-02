@@ -1,11 +1,14 @@
 <HomeScreen>:    
     MDFloatLayout:
-        MDIconButton:
-            icon: "chevron-left"
-            user_font_size: "35sp"
-            pos_hint: {"center_y": .95}
-            on_release: app.go_back_to_pre_splash()
-            
+        md_bg_color: 1, 1, 1, 1
+
+        MDTopAppBar:
+            title: ""
+            left_action_items: [["chevron-left", lambda x: app.switch_screen('menu_screen')]]
+            md_bg_color: 0, 0, 0, 1  # Cor de fundo preta
+            pos_hint: {"top": 1}  # Garante que a barra fique no topo
+            elevation: 4
+
         # Título "Home" centralizado na parte superior, acima da imagem
         MDLabel:
             text: "Home"
@@ -23,7 +26,7 @@
             pos_hint: {"center_x": .5, "center_y": .65}
             allow_stretch: True
             keep_ratio: True
-            on_touch_down: root.update_dispenser_levels()
+            on_touch_down: root.create_fooding_schedule()
 
         # Texto "Alimente-se agora!" centralizado abaixo da imagem
         MDLabel:
@@ -69,3 +72,11 @@
                 text: "Nível de água está baixo!"
                 font_size: "18sp"
                 halign: "center"
+
+        MDRaisedButton:
+            text: "Atualizar Níveis"
+            md_bg_color: 0, 0, 0, 1
+            text_color: 1, 1, 1, 1
+            pos_hint: {"center_x": .5, "center_y": .1}
+            size_hint_x: .5
+            on_release: root.update_dispenser_levels()  # Função chamada ao clicar

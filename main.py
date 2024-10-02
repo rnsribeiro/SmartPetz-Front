@@ -1,5 +1,6 @@
 import os
 import requests
+from datetime import datetime
 from kivymd.app import MDApp
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label
@@ -91,6 +92,23 @@ class CadastrarDispenser(Screen):
                 self.show_error_popup(f"Erro ao cadastrar.\nCódigo de status: {response.status_code}\nDetalhe: {error_detail}")
         except requests.exceptions.RequestException as e:
             self.show_error_popup(f"Erro de conexão: {e}")
+
+    def configurar_dispenser(self, code):
+         # Verifica se o campo code está vazio
+        if not code:
+            self.show_error_popup("O campo de código não pode estar vazio!")
+            return
+
+        # Obtém o IP e o token configurados
+        app = MDApp.get_running_app()
+
+        try:
+            app.save_dispenser_code(code)
+            self.show_success_popup("Dispenser configurado com sucesso!")                
+            self.manager.current = "home_screen"    
+        except Exception as e:
+            self.show_error_popup(f"Erro ao cadastrar.\nCódigo de status: {e}")
+
 
     def show_success_popup(self, message):
         popup = Popup(title='Sucesso',
@@ -193,11 +211,60 @@ class HomeScreen(Screen):
 
     def on_pre_enter(self):     
         super().on_pre_enter()
-        self.load_dispenser_data()  
+        self.load_dispenser_data()          
         self.update_dispenser_levels()
         # Bind as propriedades water_level e food_level ao método check_levels
         self.bind(water_level=self.check_levels, food_level=self.check_levels)
         self.check_levels()  # Executa check_levels quando a tela é exibida
+
+    def create_fooding_schedule(self):
+        app = MDApp.get_running_app()
+        ip_address = app.get_ip_address()        
+        dispenser_code = app.get_dispenser_code()
+        print(dispenser_code)
+
+        if not dispenser_code:
+            print("Nenhum dispenser cadastrado")
+            return
+
+        url = f"http://{ip_address}:8000/fooding_schedule/"
+
+        # Obtendo a hora atual e formatando como "HH:MM"
+        food_time = datetime.now().strftime("%H:%M")  # Formato 'HH:MM'
+
+        data = {
+            "code": dispenser_code,
+            "food_time": food_time,
+            "amount": 50
+        }
+
+        headers = {
+            'Content-Type': 'application/json',
+            #'Authorization': f'Bearer {app.get_token()}'
+        }
+
+        try:
+            # Mudança para POST
+            response = requests.post(url, json=data, headers=headers)
+            print(f"Status Code: {response.status_code}, Response: {response.text}")
+            if response.status_code == 200:
+                print("Alimentação programada com sucesso!")
+            else:
+                self.show_error_popup(f"Erro ao programar alimentação.\nCódigo de status: {response.status_code}")                
+        except requests.exceptions.RequestException as e:
+            self.show_error_popup(f"Erro de conexão: {e}")
+
+    def show_success_popup(self, message):
+        popup = Popup(title='Sucesso',
+                      content=Label(text=message),
+                      size_hint=(0.8, 0.4))
+        popup.open()
+
+    def show_error_popup(self, message):
+        popup = Popup(title='Erro',
+                      content=Label(text=message),
+                      size_hint=(0.8, 0.4))
+        popup.open()
 
     def load_dispenser_data(self):
         # Carrega os dados do arquivo de configuração
@@ -214,7 +281,7 @@ class HomeScreen(Screen):
         dispenser_code = app.get_dispenser_code()
 
         if not dispenser_code:
-            print("Nenhum dispenser codastrado")
+            print("Nenhum dispenser cadastrado")
             return
 
         url = f"http://{ip_address}:8000/dispenser/levels/?code={dispenser_code}"
