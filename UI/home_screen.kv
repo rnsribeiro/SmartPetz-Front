@@ -26,7 +26,7 @@
             pos_hint: {"center_x": .5, "center_y": .65}
             allow_stretch: True
             keep_ratio: True
-            on_touch_down: root.create_fooding_schedule()
+            on_release: root.create_fooding_schedule()  # Chamando a função no release
 
         # Texto "Alimente-se agora!" centralizado abaixo da imagem
         MDLabel:
