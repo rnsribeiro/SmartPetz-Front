@@ -10,17 +10,22 @@
             orientation: 'horizontal'
             padding: "10dp"
             spacing: "10dp"
+            size_hint_y: None  # Remove o tamanho relativo
+            height: "400dp"  # Define uma altura maior para aumentar o tamanho dos itens internos
             
             MDBoxLayout:
                 orientation: 'vertical'
+                size_hint_x: 0.5  # Controle o tamanho horizontal (50% da largura)
                 MDLabel:
                     text: "Ração"
                     halign: 'center'
                 MDBoxLayout:
                     orientation: 'vertical'
+                    size_hint_y: None
+                    height: "300dp"  # Aumenta a altura da barra de nível
                     canvas:
                         Color:
-                            rgba: 1, 0, 0, 1  # Red
+                            rgba: 0.7, 0.6, 0.6, 1
                         Rectangle:
                             pos: self.pos
                             size: self.size[0], self.size[1] * (root.food_level / 100)
@@ -31,14 +36,17 @@
                 
             MDBoxLayout:
                 orientation: 'vertical'
+                size_hint_x: 0.5  # Controle o tamanho horizontal (50% da largura)
                 MDLabel:
                     text: "Água"
                     halign: 'center'
                 MDBoxLayout:
                     orientation: 'vertical'
+                    size_hint_y: None
+                    height: "300dp"  # Aumenta a altura da barra de nível
                     canvas:
                         Color:
-                            rgba: 1, 1, 0, 1  # Yellow
+                            rgba: 0.5, 0.8, 0.9, 1
                         Rectangle:
                             pos: self.pos
                             size: self.size[0], self.size[1] * (root.water_level / 100)
@@ -46,22 +54,38 @@
                         text: f"{root.water_level}%"
                         halign: 'center'
                         pos_hint: {'center_y': 0.1}
-        
+
+        # Bottom Navigation
         MDBottomNavigation:
-            MDBottomNavigationItem:
-                name: 'screen 1'
+            panel_color: 1, 1, 1, 1
+            text_color_active: 0, 0, 0, 1
+
+            MDBottomNavigationItem:                
+                text: 'Home'
                 icon: 'home'
-                on_tab_press: app.switch_screen('home_screen')
-            MDBottomNavigationItem:
-                name: 'screen 2'
+                on_tab_press: app.switch_screen('home_screen')               
+
+            MDBottomNavigationItem:                
+                text: 'Vacina'
                 icon: 'needle'
-            MDBottomNavigationItem:
-                name: 'screen 3'
+                on_tab_press: app.switch_screen('home_screen')
+
+            MDBottomNavigationItem:                
+                text: 'Registros'
                 icon: 'file-document'
+                on_tab_press: app.switch_screen('registro_alimentacoes')
+
+            MDBottomNavigationItem:                
+                text: 'Monitor'
+                icon: 'chart-line'
+                on_tab_press: app.switch_screen('reservoir_monitor')
+
             MDBottomNavigationItem:
-                name: 'screen 4'
+                text: 'Histórico'
                 icon: 'chart-bar'
                 on_tab_press: app.switch_screen('reservoir_monitor')
-            MDBottomNavigationItem:
-                name: 'screen 5'
-                icon: 'cog'
+
+            MDBottomNavigationItem:                
+                text: 'Config'
+                icon: 'cog-outline'
+                on_tab_press: app.switch_screen('config')

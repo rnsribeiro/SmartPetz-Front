@@ -1,0 +1,117 @@
+<CadastroRefeicaoScreen>:
+    name: 'cadastro_refeicao'
+
+    MDBoxLayout:
+        orientation: 'vertical'
+        md_bg_color: 1, 1, 1, 1
+
+        # Barra superior com título
+        MDTopAppBar:
+            title: "Cadastrar Nova Refeição"
+            elevation: 4
+            md_bg_color: 0, 0, 0, 1
+            left_action_items: [["arrow-left", lambda x: app.switch_screen('registro_alimentacoes')]]
+
+        MDBoxLayout:
+            orientation: 'vertical'
+
+            # Inputs para a hora, minutos e quantidade de ração
+            MDBoxLayout:
+                orientation: 'horizontal'
+                padding: dp(10)
+                spacing: dp(10)
+
+                MDTextField:
+                    id: input_hour
+                    hint_text: "Hora (00-23)"
+                    input_filter: "int"
+                    max_text_length: 2
+                    # helper_text: "Digite a hora (00-23)"
+                    helper_text_mode: "on_focus"
+                    mode: "rectangle"
+
+                MDTextField:
+                    id: input_minute
+                    hint_text: "Minutos (00-59)"
+                    input_filter: "int"
+                    max_text_length: 2
+                    # helper_text: "Digite os minutos (00-59)"
+                    helper_text_mode: "on_focus"
+                    mode: "rectangle"
+
+            MDBoxLayout:
+                orientation: 'horizontal'
+                padding: dp(10)
+                spacing: dp(10)
+
+                # Input para quantidade de ração em gramas
+                MDTextField:
+                    id: input_amount
+                    hint_text: "Quantidade de Ração (g)"
+                    input_filter: "int"
+                    helper_text: "Digite a quantidade em gramas"
+                    helper_text_mode: "on_focus"
+                    mode: "rectangle"
+
+        # Espaço entre o botão e a navegação inferior
+        MDBoxLayout:
+            size_hint_y: None
+            height: dp(60)  # Altura do espaço
+
+
+        # Botão para cadastrar a refeição        
+        MDFillRoundFlatButton:            
+            text: "Cadastrar Refeição"
+            pos_hint: {"center_x": 0.5}
+            size_hint_y: None
+            height: dp(50)
+            on_release: root.cadastrar_refeicao(input_hour.text, input_minute.text, input_amount.text)
+            md_bg_color: 0, 0, 0, 1
+            text_color: 1, 1, 1, 1
+
+
+        # Espaço entre o botão e a navegação inferior
+        MDBoxLayout:
+            size_hint_y: None
+            height: dp(15)  # Altura do espaço
+
+        # Bottom Navigation
+        MDBottomNavigation:
+            panel_color: 1, 1, 1, 1
+            text_color_active: 0, 0, 0, 1
+
+            MDBottomNavigationItem:   
+                id: nav_home             
+                text: 'Home'
+                icon: 'home'
+                on_tab_press: app.switch_screen('home_screen')               
+
+            MDBottomNavigationItem:                
+                id: nav_vacina
+                text: 'Vacina'
+                icon: 'needle'
+                on_tab_press: app.switch_screen('home_screen')
+
+            MDBottomNavigationItem:                
+                id: nav_registros
+                text: 'Registros'
+                icon: 'file-document'
+                on_tab_press: app.switch_screen('registro_alimentacoes')
+
+            MDBottomNavigationItem:                
+                id: nav_monitor
+                text: 'Monitor'
+                icon: 'chart-line'
+                on_tab_press: app.switch_screen('reservoir_monitor')
+
+            MDBottomNavigationItem:
+                id: nav_historico
+                text: 'Histórico'
+                icon: 'chart-bar'
+                on_tab_press: app.switch_screen('reservoir_monitor')
+
+            MDBottomNavigationItem:
+                id: nav_config                
+                text: 'Config'
+                icon: 'cog-outline'
+                on_tab_press: app.switch_screen('config')

@@ -1,0 +1,110 @@
+<ConfigScreen>:
+
+    MDBoxLayout:
+        orientation: 'vertical'        
+        
+        MDTopAppBar:
+            title: "Configurações"
+            left_action_items: [["chevron-left", lambda x: app.switch_screen('menu_screen')]]
+            md_bg_color: 0, 0, 0, 1  # Cor de fundo preta
+            pos_hint: {"top": 1}  # Garante que a barra fique no topo
+            elevation: 4
+
+        MDBoxLayout:
+            orientation: 'horizontal'
+            padding: dp(10)
+            size_hint: 1, None  # Define um tamanho fixo para a imagem e o nome do usuário
+            height: dp(100)  # Define a altura da seção da imagem
+            Image:
+                source: 'Assets/profile.png'
+                spacing: dp(10)
+                size_hint: None, None
+                size: dp(75), dp(75)
+                rounded: True
+
+            MDLabel:
+                id: label_username
+                padding: dp(15)
+                font_size: '18sp'
+                text: "Not Logged In"
+                halign: 'left'
+
+            MDBoxLayout:
+                padding: dp(10)
+                orientation: 'horizontal'
+                size_hint: None, None
+                size: dp(75), dp(75)
+
+                MDIconButton:
+                    icon: 'logout'
+                    pos_hint: {'center_x': .5, 'center_y': .5}
+                    on_press: app.sair_do_app()
+
+        # Adiciona o ScrollView logo abaixo, sem empurrar a imagem
+        ScrollView:
+            #size_hint: 1, 1.2  # Define o ScrollView para ocupar 60% da tela, sem empurrar a imagem
+            size_hint_y: None  # Remove o tamanho relativo
+            height: dp(300)  # Define uma altura maior para aumentar o tamanho dos itens internos
+            MDList:
+                OneLineListItem:
+                    text: 'Logar com outro Usuário'
+                    on_release: app.switch_screen('login')
+                OneLineListItem:
+                    text: 'Cadastrar Usuário'
+                    on_release: app.switch_screen('registrar_usuario')
+                OneLineListItem:
+                    text: 'Agendar refeições'
+                    on_release: app.switch_screen('cadastro_refeicao')
+                OneLineListItem:
+                    text: 'Configurar Dispenser'
+                    on_release: app.switch_screen('cadastrar_dispenser')
+                OneLineListItem:
+                    text: 'Configurar IP'
+                    on_release: app.switch_screen('configurar_ip')
+                OneLineListItem:
+                    text: 'Limpar dados'
+                    on_release: root.limpar_dados()
+                OneLineListItem:
+                    text: 'Logout'
+                    on_release: root.logout()
+
+        # Bottom Navigation
+        MDBottomNavigation:
+            panel_color: 1, 1, 1, 1
+            text_color_active: 0, 0, 0, 1
+
+            MDBottomNavigationItem:   
+                id: nav_home             
+                text: 'Home'
+                icon: 'home'
+                on_tab_press: app.switch_screen('home_screen')               
+
+            MDBottomNavigationItem:                
+                id: nav_vacina
+                text: 'Vacina'
+                icon: 'needle'
+                on_tab_press: app.switch_screen('home_screen')
+
+            MDBottomNavigationItem:                
+                id: nav_registros
+                text: 'Registros'
+                icon: 'file-document'
+                on_tab_press: app.switch_screen('registro_alimentacoes')
+
+            MDBottomNavigationItem:                
+                id: nav_monitor
+                text: 'Monitor'
+                icon: 'chart-line'
+                on_tab_press: app.switch_screen('reservoir_monitor')
+
+            MDBottomNavigationItem:
+                id: nav_historico
+                text: 'Histórico'
+                icon: 'chart-bar'
+                on_tab_press: app.switch_screen('reservoir_monitor')
+
+            MDBottomNavigationItem:
+                id: nav_config                
+                text: 'Config'
+                icon: 'cog-outline'
+                on_tab_press: app.switch_screen('config')

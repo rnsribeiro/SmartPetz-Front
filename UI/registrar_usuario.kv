@@ -5,7 +5,7 @@
 
         MDTopAppBar:
             title: ""
-            left_action_items: [["chevron-left", lambda x: app.switch_screen('menu_screen')]]
+            left_action_items: [["chevron-left", lambda x: app.switch_screen('config')]]
             md_bg_color: 0, 0, 0, 1  # Fundo preto
             pos_hint: {"top": 1}  # Garante que a barra fique no topo
             elevation: 4
@@ -82,14 +82,26 @@
                 id: senhaUsuario
                 hint_text: "Senha"
                 mode: "line"
-                pos_hint: {"center_x": .5, "center_y": .4}
+                pos_hint: {"center_x": .5, "center_y": .5}
                 size_hint_x: .8
+                padding: [dp(10), dp(10)]
                 line_color_normal: 120/255, 120/255, 120/255, 1
                 line_color_focus: 0, 0, 1, 1
                 cursor_color: 0, 0, 0, 1
                 font_size: "17sp"
                 multiline: False
                 password: True
+                height: dp(50)
+
+            MDIconButton:
+                id: toggle_password_visibility
+                icon: "eye-off"
+                pos_hint: {"center_y": .5, "right": 1}
+                size_hint: None, None
+                size: dp(25), dp(25)
+                on_release:
+                    senhaUsuario.password = not senhaUsuario.password
+                    toggle_password_visibility.icon = "eye" if senhaUsuario.password else "eye-off"
 
         # Confirmar senha
         MDFloatLayout:
@@ -98,16 +110,29 @@
 
             MDTextField:
                 id: user_confirma_senha
-                hint_text: "Confirmar senha"
+                hint_text: "Senha"
                 mode: "line"
-                pos_hint: {"center_x": .5, "center_y": .4}
+                pos_hint: {"center_x": .5, "center_y": .5}
                 size_hint_x: .8
+                padding: [dp(10), dp(10)]
                 line_color_normal: 120/255, 120/255, 120/255, 1
                 line_color_focus: 0, 0, 1, 1
                 cursor_color: 0, 0, 0, 1
                 font_size: "17sp"
                 multiline: False
                 password: True
+                height: dp(50)
+
+            MDIconButton:
+                id: toggle_password_visibility
+                icon: "eye-off"
+                pos_hint: {"center_y": .5, "right": 1}
+                size_hint: None, None
+                size: dp(25), dp(25)
+                on_release:
+                    user_confirma_senha.password = not user_confirma_senha.password
+                    toggle_password_visibility.icon = "eye" if user_confirma_senha.password else "eye-off"
+
 
         MDRaisedButton:
             text: "Cadastrar"
@@ -116,4 +141,4 @@
             pos_hint: {"center_x": .5, "center_y": .1}
             size_hint_x: .8
             on_release:
-                root.registrar_usuario(username.text, nameUsuario.text, emailUsuario.text, senhaUsuario.text)
+                root.registrar_usuario(username.text, nameUsuario.text, emailUsuario.text, senhaUsuario.text, user_confirma_senha.text)

@@ -1,0 +1,75 @@
+<HomeScreen>:  
+    name: "home_screen"  
+    MDFloatLayout:
+        md_bg_color: 1, 1, 1, 1
+
+        MDTopAppBar:
+            title: "Home"
+            left_action_items: [["chevron-left", lambda x: app.switch_screen('menu_screen')]]
+            md_bg_color: 0, 0, 0, 1  # Cor de fundo preta
+            pos_hint: {"top": 1}  # Garante que a barra fique no topo
+            elevation: 4        
+
+        # Imagem personalizada para "Alimentar Agora" centralizada
+        Image:
+            source: "./Assets/racao.jfif"
+            size_hint: None, None
+            size: dp(100), dp(100)
+            pos_hint: {"center_x": .5, "center_y": .65}            
+            on_touch_down: 
+                if self.collide_point(*args[1].pos): root.create_fooding_schedule()
+
+
+        # Texto "Alimente-se agora!" centralizado abaixo da imagem
+        MDLabel:
+            id: alimente_se_label
+            text: "Alimente-se agora!"
+            font_size: "18sp"
+            halign: "center"
+            pos_hint: {"center_x": .5, "center_y": .55}
+            theme_text_color: "Secondary"
+        
+        MDLabel:
+            id: dispenser_code_label
+            text: "Nenhum dispenser cadastrado!"
+            font_size: "18sp"
+            halign: "center"
+            pos_hint: {"center_x": .5, "center_y": .75}
+            theme_text_color: "Secondary"
+
+        # Texto para a quantidade faltante centralizado abaixo do aviso de alimento
+        MDLabel:
+            id: quantidade_faltante_label
+            text: ""
+            font_size: "18sp"
+            halign: "center"
+            pos_hint: {"center_x": .5, "center_y": .45}
+            theme_text_color: "Hint"
+
+        # Avisos sobre o nível de ração e água centralizados
+        MDBoxLayout:
+            orientation: 'vertical'
+            size_hint: .8, None
+            height: dp(100)
+            pos_hint: {"center_x": .5, "center_y": .25}
+
+            MDLabel:
+                id: food_warning
+                text: "Nível de ração está baixo!"
+                font_size: "18sp"
+                halign: "center"
+
+            MDLabel:
+                id: water_warning
+                text: "Nível de água está baixo!"
+                font_size: "18sp"
+                halign: "center"
+
+        MDRaisedButton:
+            text: "Atualizar Níveis"
+            md_bg_color: 0, 0, 0, 1
+            text_color: 1, 1, 1, 1
+            pos_hint: {"center_x": .5, "center_y": .1}
+            size_hint_x: .5
+            on_release: root.update_dispenser_levels()  # Função chamada ao clicar
+
