@@ -20,6 +20,9 @@ from screens.home_screen import HomeScreen
 from screens.registro_alimentacoes import RegistroAlimentacoesScreen
 from screens.cadastro_refeicao import CadastroRefeicaoScreen
 from screens.config import ConfigScreen
+from screens.definir_porcao import DefinirPorcaoScreen
+from screens.vacinas import VacinaScreen
+from screens.cadastrar_vacina import CadastrarVacinaScreen
 
 
 # Importando funções utilitárias
@@ -46,17 +49,20 @@ class SmartPetz(MDApp):
         self.screen_manager = ScreenManager()
 
         # Carrega os arquivos KV para as telas
-        Builder.load_file("./UI/pre_splash.kv")
-        Builder.load_file("./UI/login.kv")
-        Builder.load_file("./UI/reservoir_monitor.kv")
-        Builder.load_file("./UI/registrar_usuario.kv")
-        Builder.load_file("./UI/cadastrar_dispenser.kv")
-        Builder.load_file("./UI/configurar_ip.kv")
-        Builder.load_file("./UI/home_screen.kv")
-        Builder.load_file("./UI/menu.kv")
-        Builder.load_file("./UI/registro_alimentacoes.kv")
-        Builder.load_file("./UI/cadastro_refeicao.kv")
-        Builder.load_file("./UI/config.kv")
+        Builder.load_file("UI/pre_splash.kv")
+        Builder.load_file("UI/login.kv")
+        Builder.load_file("UI/reservoir_monitor.kv")
+        Builder.load_file("UI/registrar_usuario.kv")
+        Builder.load_file("UI/cadastrar_dispenser.kv")
+        Builder.load_file("UI/configurar_ip.kv")
+        Builder.load_file("UI/home_screen.kv")
+        Builder.load_file("UI/menu.kv")
+        Builder.load_file("UI/registro_alimentacoes.kv")
+        Builder.load_file("UI/cadastro_refeicao.kv")
+        Builder.load_file("UI/config.kv")
+        Builder.load_file("UI/definir_porcao.kv")
+        Builder.load_file("UI/vacinas.kv")
+        Builder.load_file("UI/cadastrar_vacina.kv")
 
         # Adiciona a tela de pré-carregamento
         self.screen_manager.add_widget(Builder.load_file("./UI/pre_splash.kv"))
@@ -75,6 +81,10 @@ class SmartPetz(MDApp):
         self.screen_manager.add_widget(RegistroAlimentacoesScreen(name="registro_alimentacoes"))
         self.screen_manager.add_widget(CadastroRefeicaoScreen(name="cadastro_refeicao"))
         self.screen_manager.add_widget(ConfigScreen(name="config"))
+        self.screen_manager.add_widget(DefinirPorcaoScreen(name="definir_porcao"))
+        self.screen_manager.add_widget(VacinaScreen(name="vacinas"))
+        self.screen_manager.add_widget(CadastrarVacinaScreen(name="cadastrar_vacina"))
+
 
         # Navega para a tela de pré-carregamento ou IP
         self.screen_manager.current = "pre_splash"

@@ -17,28 +17,28 @@ from utils.helpers import (
 )
 
 class CadastroRefeicaoScreen(Screen):
-    def cadastrar_refeicao(self, hour, minute, amount):
+
+    def cadastrar_refeicao(self, hour, minute):
         # Validação para verificar se os valores estão dentro dos limites
-        if not hour or not minute or not amount:
+        if not hour or not minute:
             show_error_popup("Por favor, preencha todos os campos.")
             return
 
         try:
             hour = int(hour)
             minute = int(minute)
-            amount = int(amount)
-            
+
+            # Obter o valor da porção usando a função get_amount
+            amount = self.get_amount()
+
             if not (0 <= hour < 24):
                 show_error_popup("A hora deve estar entre 00 e 23.")
                 return
             
             if not (0 <= minute < 60):
                 show_error_popup("Os minutos devem estar entre 00 e 59.")
-                return
+                return            
             
-            if amount <= 0:
-                show_error_popup("A quantidade de ração deve ser maior que 0.")
-                return
         except ValueError:
             show_error_popup("Valores inválidos fornecidos.")
             return
@@ -75,7 +75,7 @@ class CadastroRefeicaoScreen(Screen):
                 app = MDApp.get_running_app()             
                 app.switch_screen("registro_alimentacoes")
                 self.clear_inputs()
-            elif response.status_code == 401:  # Unathorized
+            elif response.status_code == 401:  # Unauthorized
                 show_error_popup("Erro de autenticação. Por favor,\nrealize o login novamente.")
                 self.manager.current = "login"
             else:
@@ -86,4 +86,12 @@ class CadastroRefeicaoScreen(Screen):
     def clear_inputs(self):
         self.ids.input_hour.text = ""
         self.ids.input_minute.text = ""
-        self.ids.input_amount.text = ""
+
+    def get_amount(self):
+        """Verifica se existe o arquivo porcao.txt e retorna o valor da porção. Se não existir, retorna 50 como padrão."""
+        try:
+            with open("porcao.txt", "r") as porcao_file:
+                amount = porcao_file.read()
+        except FileNotFoundError:
+            amount = 50
+        return amount

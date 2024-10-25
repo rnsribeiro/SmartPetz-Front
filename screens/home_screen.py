@@ -46,10 +46,13 @@ class HomeScreen(Screen):
         # Obtendo a hora atual e formatando como "HH:MM"
         food_time = datetime.now().strftime("%H:%M")  # Formato 'HH:MM'
 
+        # Obtém a quantidade de porção
+        amount = self.get_amount()
+
         data = {
             "code": dispenser_code,
             "food_time": food_time,
-            "amount": 50,
+            "amount": amount,
             "type_food": "manual"
         }
 
@@ -133,3 +136,12 @@ class HomeScreen(Screen):
             )
         else:
             self.ids.quantidade_faltante_label.text = "Níveis de água e ração estão no normal e bom."
+
+    def get_amount(self):
+        """Verifica se existe o arquivo porcao.txt e retorna o valor da porção. Se não existir, retorna 50 como padrão."""
+        try:
+            with open("porcao.txt", "r") as porcao_file:
+                amount = porcao_file.read()
+        except FileNotFoundError:
+            amount = 50
+        return amount

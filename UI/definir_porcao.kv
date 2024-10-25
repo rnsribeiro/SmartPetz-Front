@@ -1,37 +1,55 @@
-<RegistroAlimentacoesScreen>:
-    name: 'registro_alimentacoes'
+<DefinirPorcaoScreen>:
+    name: 'definir_porcao'
 
     MDBoxLayout:
         orientation: 'vertical'
         md_bg_color: 1, 1, 1, 1
 
+        # Barra superior com título
         MDTopAppBar:
-            title: "Registro de alimentações"
+            title: "Definir Poração"
             elevation: 4
             md_bg_color: 0, 0, 0, 1
-            left_action_items: [["arrow-left", lambda x: app.switch_screen('home_screen')]]
+            left_action_items: [["arrow-left", lambda x: app.switch_screen('config')]]
 
-        ScrollView:
-            size_hint_y: None
-            height: self.parent.height - dp(250)
-            MDList:
-                id: alimentacao_list
+        MDBoxLayout:
+            orientation: 'vertical'
 
-        # Espaço entre o ScrollView e o botão
+            MDBoxLayout:
+                orientation: 'horizontal'
+                padding: dp(10)
+                spacing: dp(10)
+
+                # Input para quantidade de ração em gramas
+                MDTextField:
+                    id: input_amount
+                    hint_text: "Quantidade de Ração (g)"
+                    input_filter: "int"
+                    helper_text: "Digite a quantidade em gramas"
+                    helper_text_mode: "on_focus"
+                    mode: "rectangle"
+
+        # Espaço entre o botão e a navegação inferior
         MDBoxLayout:
             size_hint_y: None
-            height: dp(15)  # Altura do espaço
-            # Pode-se também usar padding se necessário, mas isso faz mais sentido como espaçador
+            height: dp(60)  # Altura do espaço
 
-        # Botão para cadastrar a refeição
-        MDFillRoundFlatButton:
-            text: "Cadastrar nova refeição"
+
+        # Botão para cadastrar a refeição        
+        MDFillRoundFlatButton:            
+            text: "Definir Porção"
             pos_hint: {"center_x": 0.5}
             size_hint_y: None
             height: dp(50)
-            on_release: app.switch_screen('cadastro_refeicao')
+            on_release: root.definir_porcao(input_amount.text)
             md_bg_color: 0, 0, 0, 1
             text_color: 1, 1, 1, 1
+
+
+        # Espaço entre o botão e a navegação inferior
+        MDBoxLayout:
+            size_hint_y: None
+            height: dp(15)  # Altura do espaço
 
         # Bottom Navigation
         MDBottomNavigation:

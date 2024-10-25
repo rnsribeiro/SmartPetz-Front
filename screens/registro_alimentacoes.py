@@ -87,12 +87,17 @@ class RegistroAlimentacoesScreen(Screen):
         for schedule in schedules:
             food_type = "Alimentação automática" if schedule["type_food"] == "automatica" else "Alimentação manual"
             time = schedule["food_time"]
+            amount = schedule.get("amount",
+                                  "Desconhecido")  # Pega o valor da porção ou exibe "Desconhecido" se não existir
 
             # Cria um layout horizontal para conter o item da lista e o botão
             item_layout = MDBoxLayout(orientation="horizontal", size_hint_y=None, height=dp(60))
 
-            # Cria um novo item na lista
-            list_item = TwoLineListItem(text=food_type, secondary_text=time)
+            # Exibe o tipo de alimentação e a hora, incluindo a quantidade da porção
+            list_item = TwoLineListItem(
+                text=food_type,
+                secondary_text=f"{time} - Porção: {amount}g"  # Exibe a hora e a porção juntas
+            )
 
             # Adiciona o list item ao layout
             item_layout.add_widget(list_item)
@@ -108,3 +113,4 @@ class RegistroAlimentacoesScreen(Screen):
 
             # Adiciona o layout à lista de alimentação
             self.ids.alimentacao_list.add_widget(item_layout)
+

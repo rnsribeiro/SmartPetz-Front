@@ -1,35 +1,45 @@
-<RegistroAlimentacoesScreen>:
-    name: 'registro_alimentacoes'
+<VacinaScreen>:
+    name: 'vacina'
 
     MDBoxLayout:
         orientation: 'vertical'
         md_bg_color: 1, 1, 1, 1
 
         MDTopAppBar:
-            title: "Registro de alimentações"
+            title: "Vacinas"
             elevation: 4
             md_bg_color: 0, 0, 0, 1
             left_action_items: [["arrow-left", lambda x: app.switch_screen('home_screen')]]
+
+        # Dropdown para exibir o nome do animal selecionado
+        MDBoxLayout:
+            orientation: 'vertical'
+            size_hint_y: None
+            height: dp(60)
+            padding: dp(10)
+
+            MDDropDownItem:
+                id: pet_dropdown
+                text: "Selecione um animal"  # O nome do primeiro animal será atualizado na inicialização
 
         ScrollView:
             size_hint_y: None
             height: self.parent.height - dp(250)
             MDList:
-                id: alimentacao_list
+                id: vacina_list
 
         # Espaço entre o ScrollView e o botão
         MDBoxLayout:
             size_hint_y: None
-            height: dp(15)  # Altura do espaço
-            # Pode-se também usar padding se necessário, mas isso faz mais sentido como espaçador
+            height: dp(1)
 
-        # Botão para cadastrar a refeição
+        # Botão para navegar para a tela de cadastro de vacinas
         MDFillRoundFlatButton:
-            text: "Cadastrar nova refeição"
+            text: "Cadastrar nova vacina"
             pos_hint: {"center_x": 0.5}
             size_hint_y: None
             height: dp(50)
-            on_release: app.switch_screen('cadastro_refeicao')
+            on_release: app.switch_screen('cadastrar_vacina')
             md_bg_color: 0, 0, 0, 1
             text_color: 1, 1, 1, 1
 
@@ -38,25 +48,25 @@
             panel_color: 1, 1, 1, 1
             text_color_active: 0, 0, 0, 1
 
-            MDBottomNavigationItem:   
-                id: nav_home             
+            MDBottomNavigationItem:
+                id: nav_home
                 text: 'Home'
                 icon: 'home'
-                on_tab_press: app.switch_screen('home_screen')               
+                on_tab_press: app.switch_screen('home_screen')
 
-            MDBottomNavigationItem:                
+            MDBottomNavigationItem:
                 id: nav_vacina
                 text: 'Vacina'
                 icon: 'needle'
                 on_tab_press: app.switch_screen('vacinas')
 
-            MDBottomNavigationItem:                
+            MDBottomNavigationItem:
                 id: nav_registros
                 text: 'Registros'
                 icon: 'file-document'
                 on_tab_press: app.switch_screen('registro_alimentacoes')
 
-            MDBottomNavigationItem:                
+            MDBottomNavigationItem:
                 id: nav_monitor
                 text: 'Monitor'
                 icon: 'chart-line'
@@ -69,7 +79,7 @@
                 on_tab_press: app.switch_screen('reservoir_monitor')
 
             MDBottomNavigationItem:
-                id: nav_config                
+                id: nav_config
                 text: 'Config'
                 icon: 'cog-outline'
                 on_tab_press: app.switch_screen('config')

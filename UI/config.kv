@@ -56,6 +56,9 @@
                     text: 'Agendar refeições'
                     on_release: app.switch_screen('cadastro_refeicao')
                 OneLineListItem:
+                    text: 'Definir porção'
+                    on_release: app.switch_screen('definir_porcao')
+                OneLineListItem:
                     text: 'Configurar Dispenser'
                     on_release: app.switch_screen('cadastrar_dispenser')
                 OneLineListItem:
@@ -83,7 +86,7 @@
                 id: nav_vacina
                 text: 'Vacina'
                 icon: 'needle'
-                on_tab_press: app.switch_screen('home_screen')
+                on_tab_press: app.switch_screen('vacinas')
 
             MDBottomNavigationItem:                
                 id: nav_registros
