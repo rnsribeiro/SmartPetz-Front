@@ -1,0 +1,107 @@
+<CadastrarPetScreen>:
+    name: 'cadastrar_pet'
+
+    MDBoxLayout:
+        orientation: 'vertical'
+        md_bg_color: 1, 1, 1, 1
+
+        MDTopAppBar:
+            title: "Cadastrar Pet"
+            elevation: 4
+            md_bg_color: 0, 0, 0, 1
+            left_action_items: [["arrow-left", lambda x: app.switch_screen('config')]]
+
+        # Espaço entre o TopBar e os inputs
+        MDBoxLayout:
+            orientation: 'vertical'
+            size_hint_y: None
+            height: dp(350)  # Altura do espaço
+            padding: [20, 20]
+
+            MDTextField:
+                id: nome_pet
+                hint_text: "Nome do Pet"
+                helper_text_mode: "on_focus"
+                mode: "rectangle"
+
+            MDTextField:
+                id: tipo_pet
+                hint_text: "Tipo de Pet (Ex: cachorro, gato)"
+                helper_text_mode: "on_focus"
+                mode: "rectangle"
+
+            MDTextField:
+                id: peso_pet
+                hint_text: "Peso (em kg)"
+                helper_text_mode: "on_focus"
+                input_filter: 'float'  # Garante que o usuário só insira números
+                mode: "rectangle"
+
+            MDTextField:
+                id: tamanho_pet
+                hint_text: "Tamanho (Ex: pequeno, médio, grande)"
+                helper_text_mode: "on_focus"
+                mode: "rectangle"
+
+            MDTextField:
+                id: idade_pet
+                hint_text: "Idade do Pet (em anos)"
+                helper_text_mode: "on_focus"
+                input_filter: 'int'  # Garante que o usuário só insira números inteiros
+                mode: "rectangle"
+
+        # Espaço entre os inputs e o botão
+        MDBoxLayout:
+            size_hint_y: None
+            height: dp(20)  # Altura do espaço
+
+        # Botão para salvar o pet na base de dados
+        MDFillRoundFlatButton:
+            text: "Cadastrar"
+            pos_hint: {"center_x": 0.5}
+            size_hint_y: None
+            height: dp(50)
+            on_release: root.salvar_pet() # Chama a função salvar_pet para enviar os dados para a API
+            md_bg_color: 0,0,0,1
+            text_color: 1,1,1,1
+
+        # Bottom Navigation
+        MDBottomNavigation:
+            panel_color: 1, 1, 1, 1
+            text_color_active: 0, 0, 0, 1
+
+            MDBottomNavigationItem:
+                id: nav_home
+                text: 'Home'
+                icon: 'home'
+                on_tab_press: app.switch_screen('home_screen')
+
+            MDBottomNavigationItem:
+                id: nav_vacina
+                text: 'Vacina'
+                icon: 'needle'
+                on_tab_press: app.switch_screen('vacinas')
+
+            MDBottomNavigationItem:
+                id: nav_registros
+                text: 'Registros'
+                icon: 'file-document'
+                on_tab_press: app.switch_screen('registro_alimentacoes')
+
+            MDBottomNavigationItem:
+                id: nav_monitor
+                text: 'Monitor'
+                icon: 'chart-line'
+                on_tab_press: app.switch_screen('reservoir_monitor')
+
+            MDBottomNavigationItem:
+                id: nav_historico
+                text: 'Histórico'
+                icon: 'chart-bar'
+                on_tab_press: app.switch_screen('reservoir_monitor')
+
+            MDBottomNavigationItem:
+                id: nav_config
+                text: 'Config'
+                icon: 'cog-outline'
+                on_tab_press: app.switch_screen('config')

@@ -5,7 +5,7 @@
         
         MDTopAppBar:
             title: "Configurações"
-            left_action_items: [["chevron-left", lambda x: app.switch_screen('menu_screen')]]
+            left_action_items: [["chevron-left", lambda x: app.switch_screen('home_screen')]]
             md_bg_color: 0, 0, 0, 1  # Cor de fundo preta
             pos_hint: {"top": 1}  # Garante que a barra fique no topo
             elevation: 4
@@ -52,6 +52,9 @@
                 OneLineListItem:
                     text: 'Cadastrar Usuário'
                     on_release: app.switch_screen('registrar_usuario')
+                OneLineListItem:
+                    text: 'Cadastrar Pet'
+                    on_release: app.switch_screen('cadastrar_pet')
                 OneLineListItem:
                     text: 'Agendar refeições'
                     on_release: app.switch_screen('cadastro_refeicao')
@@ -107,7 +110,6 @@
                 on_tab_press: app.switch_screen('reservoir_monitor')
 
             MDBottomNavigationItem:
-                id: nav_config                
-                text: 'Config'
-                icon: 'cog-outline'
-                on_tab_press: app.switch_screen('config')
+                text: 'Pet'
+                icon: 'dog'  # Ícone de um cachorro
+                on_tab_press: app.switch_screen('listar_pets')

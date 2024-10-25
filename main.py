@@ -11,7 +11,6 @@ from kivy.core.window import Window
 
 # Importando as classes de tela
 from screens.login import Login
-from screens.menu import MenuScreen
 from screens.cadastrar_dispenser import CadastrarDispenser
 from screens.reservoir_monitor import ReservoirMonitor
 from screens.registrar_usuario import RegistrarUsuario
@@ -23,6 +22,8 @@ from screens.config import ConfigScreen
 from screens.definir_porcao import DefinirPorcaoScreen
 from screens.vacinas import VacinaScreen
 from screens.cadastrar_vacina import CadastrarVacinaScreen
+from screens.cadastrar_pet import CadastrarPetScreen
+from screens.listar_pets import ListarPetsScreen
 
 
 # Importando funções utilitárias
@@ -56,13 +57,14 @@ class SmartPetz(MDApp):
         Builder.load_file("UI/cadastrar_dispenser.kv")
         Builder.load_file("UI/configurar_ip.kv")
         Builder.load_file("UI/home_screen.kv")
-        Builder.load_file("UI/menu.kv")
         Builder.load_file("UI/registro_alimentacoes.kv")
         Builder.load_file("UI/cadastro_refeicao.kv")
         Builder.load_file("UI/config.kv")
         Builder.load_file("UI/definir_porcao.kv")
         Builder.load_file("UI/vacinas.kv")
         Builder.load_file("UI/cadastrar_vacina.kv")
+        Builder.load_file("UI/cadastrar_pet.kv")
+        Builder.load_file("UI/listar_pets.kv")
 
         # Adiciona a tela de pré-carregamento
         self.screen_manager.add_widget(Builder.load_file("./UI/pre_splash.kv"))
@@ -74,7 +76,6 @@ class SmartPetz(MDApp):
         self.screen_manager.add_widget(Login(name="login"))
         self.screen_manager.add_widget(RegistrarUsuario(name="registrar_usuario"))
         self.screen_manager.add_widget(HomeScreen(name="home_screen"))
-        self.screen_manager.add_widget(MenuScreen(name="menu_screen"))
         self.screen_manager.add_widget(ConfigurarIP(name="configurar_ip"))
         self.screen_manager.add_widget(CadastrarDispenser(name="cadastrar_dispenser"))
         self.screen_manager.add_widget(ReservoirMonitor(name="reservoir_monitor"))
@@ -84,6 +85,8 @@ class SmartPetz(MDApp):
         self.screen_manager.add_widget(DefinirPorcaoScreen(name="definir_porcao"))
         self.screen_manager.add_widget(VacinaScreen(name="vacinas"))
         self.screen_manager.add_widget(CadastrarVacinaScreen(name="cadastrar_vacina"))
+        self.screen_manager.add_widget(CadastrarPetScreen(name="cadastrar_pet"))
+        self.screen_manager.add_widget(ListarPetsScreen(name="listar_pets"))
 
 
         # Navega para a tela de pré-carregamento ou IP
@@ -93,6 +96,7 @@ class SmartPetz(MDApp):
             self.screen_manager.current = "configurar_ip"
         else:
             self.screen_manager.current = "pre_splash"
+            #self.screen_manager.current = "listar_pets"
 
         return self.screen_manager
        

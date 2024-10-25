@@ -7,7 +7,7 @@
             md_bg_color: 0, 0, 0, 1  # Cor de fundo preta
             pos_hint: {"top": 1}  # Garante que a barra fique no topo
             elevation: 4    
-               
+
         MDBoxLayout:
             orientation: 'vertical'
             size_hint_y: None  # Remove o tamanho relativo
@@ -18,20 +18,16 @@
                 text: "Nenhum dispenser cadastrado!"
                 font_size: "18sp"
                 halign: "center"
-                # pos_hint: {"center_x": .5, "center_y": .1}
                 theme_text_color: "Secondary"
 
-            # Imagem personalizada para "Alimentar Agora" centralizada
             Image:
                 source: "./Assets/racao.jfif"
                 size_hint: None, None
                 size: dp(100), dp(100)
-                pos_hint: {"center_x": .5, "center_y": .1}            
-                on_touch_down: 
+                pos_hint: {"center_x": .5, "center_y": .1}
+                on_touch_down:
                     if self.collide_point(*args[1].pos): root.create_fooding_schedule()
 
-
-            # Texto "Alimente-se agora!" centralizado abaixo da imagem
             MDLabel:
                 id: alimente_se_label
                 text: "Alimente-se agora!"
@@ -39,10 +35,7 @@
                 halign: "center"
                 pos_hint: {"center_x": .5, "center_y": .1}
                 theme_text_color: "Secondary"
-            
-            
 
-            # Texto para a quantidade faltante centralizado abaixo do aviso de alimento
             MDLabel:
                 id: quantidade_faltante_label
                 text: ""
@@ -51,7 +44,6 @@
                 pos_hint: {"center_x": .5, "center_y": .1}
                 theme_text_color: "Hint"
 
-            # Avisos sobre o nível de ração e água centralizados
             MDBoxLayout:
                 orientation: 'vertical'
                 size_hint: .8, None
@@ -78,16 +70,15 @@
                 size_hint_x: .5
                 on_release: root.update_dispenser_levels()  # Função chamada ao clicar
 
-
         # Bottom Navigation
         MDBottomNavigation:
             panel_color: 1, 1, 1, 1
             text_color_active: 0, 0, 0, 1
 
-            MDBottomNavigationItem:                
-                text: 'Home'
-                icon: 'home'
-                on_tab_press: app.switch_screen('home_screen')               
+            MDBottomNavigationItem:
+                text: 'Pet'
+                icon: 'dog'  # Ícone de um cachorro
+                on_tab_press: app.switch_screen('listar_pets')  # Exemplo: tela de lista de pets
 
             MDBottomNavigationItem:                
                 text: 'Vacina'
