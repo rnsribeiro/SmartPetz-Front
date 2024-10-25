@@ -106,36 +106,41 @@ class HomeScreen(Screen):
         # Calcula a quantidade necessária para atingir 41% de água e ração
         water_diff = max(0, 41 - self.water_level)
         food_diff = max(0, 41 - self.food_level)
-        
+
+        # Habilita o markup do label
+        self.ids.water_warning.markup = True
+        self.ids.food_warning.markup = True
+        self.ids.quantidade_faltante_label.markup = True
+
         # Configura o texto e a cor para o nível de água
         if self.water_level < 40:
-            self.ids.water_warning.text = f"Nível de água está baixo! Faltam {water_diff}% para o normal."
-            self.ids.water_warning.text_color = [1, 0, 0, 1]  # Vermelho
+            self.ids.water_warning.text = f"[color=#FF0000]Nível de água está baixo! Faltam {water_diff}% para o normal.[/color]"
+            # self.ids.water_warning.text_color = [1, 0, 0, 1]  # Vermelho
         elif 40 >= self.water_level <= 60:
-            self.ids.water_warning.text = "Nível de água está normal."
-            self.ids.water_warning.text_color = [1, 1, 0, 1]  # Amarelo
+            self.ids.water_warning.text = "[color=#FFA500]Nível de água está normal.[/color]"
+            # self.ids.water_warning.text_color = [1, 1, 0, 1]  # Amarelo
         else:
-            self.ids.water_warning.text = "Nível de água está bom!"
-            self.ids.water_warning.text_color = [0, 1, 0, 1]  # Verde
+            self.ids.water_warning.text = "[color=#00FF00]Nível de água está bom![/color]"
+            # self.ids.water_warning.text_color = [0, 1, 0, 1]  # Verde
 
         # Configura o texto e a cor para o nível de ração
         if self.food_level < 40:
-            self.ids.food_warning.text = f"Nível de ração está baixo! Faltam {food_diff}% para o normal."
-            self.ids.food_warning.text_color = [0.8, 0.2, 0.2, 1]  # Vermelho
+            self.ids.food_warning.text = f"[color=#FF0000]Nível de ração está baixo! Faltam {food_diff}% para o normal.[/color]"
+            # self.ids.food_warning.text_color = [0.8, 0.2, 0.2, 1]  # Vermelho
         elif 40 <= self.food_level <= 60:
-            self.ids.food_warning.text = "Nível de ração está normal."
-            self.ids.food_warning.text_color = [1, 1, 0, 1]  # Amarelo
+            self.ids.food_warning.text = "[color=#FFA500]Nível de ração está normal.[/color]"
+            # self.ids.food_warning.text_color = [1, 1, 0, 1]  # Amarelo
         else:
-            self.ids.food_warning.text = "Nível de ração está bom!"
-            self.ids.food_warning.text_color = [0.2, 0.8, 0.2, 1]  # Verde
+            self.ids.food_warning.text = "[color=#00FF00]Nível de ração está bom![/color]"
+            # self.ids.food_warning.text_color = [0.2, 0.8, 0.2, 1]  # Verde
 
         # Exibe a quantidade faltante para o nível normal (amarelo)
         if water_diff > 0 or food_diff > 0:
             self.ids.quantidade_faltante_label.text = (
-                f"Faltam {water_diff}% de água e {food_diff}% de ração para o nível normal (amarelo)."
+                f"[color=#FFA500]Faltam {water_diff}% de água e {food_diff}% de ração para o nível normal.[/color]"
             )
         else:
-            self.ids.quantidade_faltante_label.text = "Níveis de água e ração estão no normal e bom."
+            self.ids.quantidade_faltante_label.text = "[color=#00FF00]Níveis de água e ração estão bons.[/color]"
 
     def get_amount(self):
         """Verifica se existe o arquivo porcao.txt e retorna o valor da porção. Se não existir, retorna 50 como padrão."""

@@ -62,8 +62,12 @@ class CadastrarVacinaScreen(Screen):
         nome_vacina = self.ids.nome_vacina.text
         data_aplicacao = self.ids.data_aplicacao.text
 
+        # Se o campo data_aplicacao estiver vazio, define a data para o dia atual
+        if not data_aplicacao:
+            data_aplicacao = datetime.today().strftime('%d-%m-%Y')
+
         # Validação simples dos campos
-        if not nome_vacina or not data_aplicacao:
+        if not nome_vacina:
             print("Por favor, preencha todos os campos.")
             return
 

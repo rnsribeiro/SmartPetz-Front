@@ -1,8 +1,12 @@
 import requests
+from datetime import datetime
 from kivy.uix.screenmanager import Screen
 from kivymd.uix.menu import MDDropdownMenu
+from kivymd.uix.button import MDIconButton
+from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.list import TwoLineListItem
 from kivy.clock import mainthread
+from kivy.metrics import dp
 from utils.helpers import get_token, get_ip_address  # Supondo que você tenha essas funções utilitárias
 
 API_URL_ANIMAIS = "http://<seu_servidor>/pets"
@@ -65,6 +69,20 @@ class VacinaScreen(Screen):
         # Carrega as vacinas para o animal selecionado
         self.load_vacinas(pet["id"])
 
+    def delete_vacina(self, vaccine_id):
+        """Exclui uma vacina pelo ID"""
+        token = get_token()
+        ip_address = get_ip_address()
+        headers = {"Authorization": f"Bearer {token}"}
+        url = f"http://{ip_address}:8000/vaccine/{vaccine_id}"
+
+        response = requests.delete(url, headers=headers)
+        if response.status_code == 200:
+            print("Vacina excluída com sucesso!")
+            self.on_pre_enter()  # Recarrega as vacinas após a exclusão
+        else:
+            print(f"Erro ao excluir vacina: {response.status_code}")
+
     def load_vacinas(self, pet_id):
         """Requisição para carregar as vacinas do animal selecionado."""
         token = get_token()
@@ -85,8 +103,36 @@ class VacinaScreen(Screen):
         self.ids.vacina_list.clear_widgets()
 
         for vacina in vacinas:
+            # Converte a data do formato "YYYY-MM-DD" para "DD-MM-YYYY"
+            data_aplicacao = datetime.strptime(vacina['application_date'], '%Y-%m-%d').strftime('%d-%m-%Y')
+
+            # Define o status com base na data de aplicação
+            hoje = datetime.today().date()
+            if datetime.strptime(vacina['application_date'], '%Y-%m-%d').date() > hoje:
+                status = "[color=#FFA500]Pendente[/color]"  # Amarelo para pendente
+            else:
+                status = "[color=#00FF00]Concluído[/color]"  # Verde para concluído
+
+            # Cria um layout horizontal para conter o item da lista e o botão
+            item_layout = MDBoxLayout(orientation="horizontal", size_hint_y=None, height=dp(60))
+
+            # Exibe o nome da vacina, status e a data de aplicação
             item = TwoLineListItem(
-                text=vacina["vaccine_name"],
-                secondary_text=f"Aplicado em: {vacina['application_date']}"
+                text=f"{vacina['vaccine_name']} - {status}",
+                secondary_text=f"Aplicado em: {data_aplicacao}"
             )
-            self.ids.vacina_list.add_widget(item)
+
+            # Adiciona o item ao layout
+            item_layout.add_widget(item)
+
+            # Adiciona um botão de excluir ao lado do item
+            delete_button = MDIconButton(
+                icon="delete",
+                on_release=lambda x, vaccine_id=vacina["id"]: self.delete_vacina(vaccine_id)
+            )
+
+            # Adiciona o botão ao layout
+            item_layout.add_widget(delete_button)
+            
+            # Agora adiciona o layout completo à lista de vacinas
+            self.ids.vacina_list.add_widget(item_layout)

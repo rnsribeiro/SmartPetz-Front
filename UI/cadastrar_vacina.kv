@@ -30,7 +30,8 @@
             MDTextField:
                 id: nome_vacina
                 hint_text: "Nome da vacina"
-                required: True
+                helper_text_mode: "on_focus"
+                mode: "rectangle"
 
         # Data de aplicação
         MDBoxLayout:
@@ -39,13 +40,15 @@
             MDTextField:
                 id: data_aplicacao
                 hint_text: "Data de aplicação (DD-MM-YYYY)"
-                required: True
+                helper_text_mode: "on_focus"
+                mode: "rectangle"
 
          # Botão para navegar para a tela de cadastro de vacinas
         MDFillRoundFlatButton:
             text: "Salvar"
             pos_hint: {"center_x": 0.5}
             size_hint_y: None
+            width: dp(100)
             height: dp(50)
             on_release: root.salvar_vacina()
             md_bg_color: 0, 0, 0, 1
