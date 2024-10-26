@@ -11,6 +11,7 @@ bin/
 config.txt
 dispenser_code.txt
 token.txt
+porcao.txt
 
 # Distribution / packaging
 .Python

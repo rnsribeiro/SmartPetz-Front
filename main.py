@@ -39,7 +39,7 @@ from utils.helpers import (
 # Define o tamanho da janela principal
 Window.size = (350, 580)
 
-class SmartPetz(MDApp):
+class SmartPetsz(MDApp):
     dispenser_code_file = "dispenser_code.txt"
 
     def build(self):
@@ -148,4 +148,4 @@ class SmartPetz(MDApp):
         # Função para abrir um seletor de datas (se precisar adicionar)
         pass
 
-SmartPetz().run()
+SmartPetsz().run()
