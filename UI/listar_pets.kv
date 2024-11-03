@@ -9,7 +9,7 @@
             title: "Meus Pets"
             elevation: 4
             md_bg_color: 0, 0, 0, 1
-            left_action_items: [["arrow-left", lambda x: app.switch_screen('home_screen')]]
+            left_action_items: [["arrow-left", lambda x: app.switch_screen('config')]]
 
         ScrollView:
             size_hint_y: None
@@ -65,7 +65,7 @@
                 id: nav_historico
                 text: 'Histórico'
                 icon: 'chart-bar'
-                on_tab_press: app.switch_screen('reservoir_monitor')
+                on_tab_press: app.switch_screen('historico')
 
             MDBottomNavigationItem:
                 id: nav_config

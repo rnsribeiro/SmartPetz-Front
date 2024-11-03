@@ -1,5 +1,5 @@
-<DefinirPorcaoScreen>:
-    name: 'definir_porcao'
+<HistoricoScreen>:
+    name: 'historico'
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -7,49 +7,22 @@
 
         # Barra superior com título
         MDTopAppBar:
-            title: "Definir Porção"
+            title: "Histórico de Ações"
             elevation: 4
             md_bg_color: 0, 0, 0, 1
-            left_action_items: [["arrow-left", lambda x: app.switch_screen('config')]]
+            left_action_items: [["arrow-left", lambda x: app.switch_screen('home_screen')]]
 
-        # Box para conter o dropdown com altura aumentada
-        MDBoxLayout:
-            orientation: 'vertical'
-            padding: [10, 0, 10, 0]  # Margens laterais de 10px
-            size_hint_y: None  # Define a altura como fixa
-            height: dp(100)  # Aumenta a altura para 100dp (ou ajuste conforme necessário)
-
-            # Dropdown de seleção de porção
-            MDDropDownItem:
-                id: porcao_dropdown
-                text: "Selecione a porção"
-                size_hint_x: 1
-                on_release: root.open_porcao_menu()  # Abre o menu de porções
-
-        # Espaço entre o dropdown e o botão
-        MDBoxLayout:
-            size_hint_y: None
-            height: dp(200)
-
-        # Botão para definir a porção
-        MDFillRoundFlatButton:
-            text: "Definir Porção"
-            pos_hint: {"center_x": 0.5}
-            size_hint_y: None
-            height: dp(50)
-            on_release: root.salvar_porcao()
-            md_bg_color: 0, 0, 0, 1
-            text_color: 1, 1, 1, 1
-
-        # Espaço entre o botão e a navegação inferior
-        MDBoxLayout:
-            size_hint_y: None
-            height: dp(15)
+        # Lista para exibir os logs
+        ScrollView:
+            size_hint_y: 1  # Ocupe toda a altura disponível
+            MDList:
+                id: log_list  # ID da lista de logs
 
         # Bottom Navigation
         MDBottomNavigation:
             panel_color: 1, 1, 1, 1
             text_color_active: 0, 0, 0, 1
+            size_hint_y: 0.18
 
             MDBottomNavigationItem:
                 id: nav_home

@@ -55,9 +55,10 @@
                 on_tab_press: app.switch_screen('home_screen')
 
             MDBottomNavigationItem:
-                text: 'Pet'
-                icon: 'dog'  # Ícone de um cachorro
-                on_tab_press: app.switch_screen('listar_pets')  # Exemplo: tela de lista de pets
+                id: nav_vacina
+                text: 'Vacina'
+                icon: 'needle'
+                on_tab_press: app.switch_screen('vacinas')
 
             MDBottomNavigationItem:
                 id: nav_registros
@@ -75,7 +76,7 @@
                 id: nav_historico
                 text: 'Histórico'
                 icon: 'chart-bar'
-                on_tab_press: app.switch_screen('reservoir_monitor')
+                on_tab_press: app.switch_screen('historico')
 
             MDBottomNavigationItem:
                 id: nav_config

@@ -6,6 +6,9 @@ from kivy.uix.screenmanager import (
     Screen
 )
 
+# Import para funções de log
+from utils.log_manager import save_log
+
 # Importando funções utilitárias
 from utils.helpers import (
     get_ip_address, 
@@ -48,12 +51,15 @@ class RegistrarUsuario(Screen):
             if response.status_code == 200:
                 # Se o cadastro for bem-sucedido, exibe uma mensagem de sucesso
                 show_success_popup("Usuário cadastrado com sucesso!")
+                save_log("INFO", "RegistrarUsuario", "Usuário registrado com sucesso.")
                 self.manager.current = "login"  # Volta para a tela de login
             else:
                 # Se o cadastro falhar, exibe uma mensagem de erro
                 show_error_popup(f"Erro ao cadastrar.\nCódigo de status: {response.status_code}\n{response.text}")
+                save_log("ERROR", "RegistrarUsuario", "Erro ao registrar usuário.")
         except requests.exceptions.RequestException as e:
             # Exibe erro de conexão
-            show_error_popup(f"Erro de conexão: {e}")
+            save_log("ERROR", "RegistrarUsuario", f"Erro: {str(e)}")
+            show_error_popup(f"Erro de conexão: {str(e)}")
 
     

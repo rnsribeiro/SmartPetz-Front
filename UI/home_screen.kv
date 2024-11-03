@@ -76,31 +76,38 @@
             text_color_active: 0, 0, 0, 1
 
             MDBottomNavigationItem:
-                text: 'Pet'
-                icon: 'dog'  # Ícone de um cachorro
-                on_tab_press: app.switch_screen('listar_pets')  # Exemplo: tela de lista de pets
+                id: nav_home
+                text: 'Home'
+                icon: 'home'
+                on_tab_press: app.switch_screen('home_screen')
 
-            MDBottomNavigationItem:                
+            MDBottomNavigationItem:
+                id: nav_vacina
                 text: 'Vacina'
                 icon: 'needle'
                 on_tab_press: app.switch_screen('vacinas')
 
-            MDBottomNavigationItem:                
+            MDBottomNavigationItem:
+                id: nav_registros
                 text: 'Registros'
                 icon: 'file-document'
                 on_tab_press: app.switch_screen('registro_alimentacoes')
 
-            MDBottomNavigationItem:                
+            MDBottomNavigationItem:
+                id: nav_monitor
                 text: 'Monitor'
                 icon: 'chart-line'
                 on_tab_press: app.switch_screen('reservoir_monitor')
 
             MDBottomNavigationItem:
+                id: nav_historico
                 text: 'Histórico'
                 icon: 'chart-bar'
-                on_tab_press: app.switch_screen('reservoir_monitor')
+                on_tab_press: app.switch_screen('historico')
 
-            MDBottomNavigationItem:                
+            MDBottomNavigationItem:
+                id: nav_config
                 text: 'Config'
                 icon: 'cog-outline'
                 on_tab_press: app.switch_screen('config')
+

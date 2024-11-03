@@ -7,7 +7,7 @@
             icon: "chevron-left"
             user_font_size: "35sp"
             pos_hint: {"center_y": .95}
-            on_release: app.go_back_to_pre_splash()
+            on_release: app.switch_screen('pre_splash')
 
         MDLabel:
             font_size: "18sp"
@@ -98,4 +98,4 @@
             halign: "center"
             color: 120/255, 120/255, 120/255, 1
             on_release:
-                app.go_to_registrar()
+                app.switch_screen('registrar_usuario')

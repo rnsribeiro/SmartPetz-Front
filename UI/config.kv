@@ -53,6 +53,9 @@
                     text: 'Cadastrar Usuário'
                     on_release: app.switch_screen('registrar_usuario')
                 OneLineListItem:
+                    text: 'Meus Pet'
+                    on_release: app.switch_screen('listar_pets')
+                OneLineListItem:
                     text: 'Cadastrar Pet'
                     on_release: app.switch_screen('cadastrar_pet')
                 OneLineListItem:
@@ -79,25 +82,25 @@
             panel_color: 1, 1, 1, 1
             text_color_active: 0, 0, 0, 1
 
-            MDBottomNavigationItem:   
-                id: nav_home             
+            MDBottomNavigationItem:
+                id: nav_home
                 text: 'Home'
                 icon: 'home'
-                on_tab_press: app.switch_screen('home_screen')               
+                on_tab_press: app.switch_screen('home_screen')
 
-            MDBottomNavigationItem:                
+            MDBottomNavigationItem:
                 id: nav_vacina
                 text: 'Vacina'
                 icon: 'needle'
                 on_tab_press: app.switch_screen('vacinas')
 
-            MDBottomNavigationItem:                
+            MDBottomNavigationItem:
                 id: nav_registros
                 text: 'Registros'
                 icon: 'file-document'
                 on_tab_press: app.switch_screen('registro_alimentacoes')
 
-            MDBottomNavigationItem:                
+            MDBottomNavigationItem:
                 id: nav_monitor
                 text: 'Monitor'
                 icon: 'chart-line'
@@ -107,9 +110,10 @@
                 id: nav_historico
                 text: 'Histórico'
                 icon: 'chart-bar'
-                on_tab_press: app.switch_screen('reservoir_monitor')
+                on_tab_press: app.switch_screen('historico')
 
             MDBottomNavigationItem:
-                text: 'Pet'
-                icon: 'dog'  # Ícone de um cachorro
-                on_tab_press: app.switch_screen('listar_pets')
+                id: nav_config
+                text: 'Config'
+                icon: 'cog-outline'
+                on_tab_press: app.switch_screen('config')

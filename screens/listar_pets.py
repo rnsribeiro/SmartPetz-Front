@@ -7,6 +7,8 @@ from kivy.clock import mainthread
 from kivy.metrics import dp
 from utils.helpers import get_token, get_ip_address  # Funções utilitárias para pegar o IP e o token
 
+# Import para funções de log
+from utils.log_manager import save_log
 
 class ListarPetsScreen(Screen):
 
@@ -23,8 +25,10 @@ class ListarPetsScreen(Screen):
         response = requests.get(url, headers=headers)
         if response.status_code == 200:
             pets = response.json()
+            save_log("INFO", "ListarPetsScreen", "Pets carregados com sucesso.")
             self.update_pet_list(pets)
         else:
+            save_log("ERROR", "ListarPetsScreen", "Erro ao buscar os pets.")
             print("Erro ao buscar os pets")
 
     @mainthread
@@ -67,6 +71,8 @@ class ListarPetsScreen(Screen):
         response = requests.delete(url, headers=headers)
         if response.status_code == 200:
             print("Pet excluído com sucesso!")
+            save_log("INFO", "ListarPetsScreen", "Pet excluído com sucesso.")
             self.load_pets()  # Recarrega a lista de pets após a exclusão
         else:
+            save_log("ERROR", "ListarPetsScreen", "Erro ao excluir o pet.")
             print(f"Erro ao excluir pet: {response.status_code}")

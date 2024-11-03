@@ -4,7 +4,11 @@ from kivymd.uix.button import MDIconButton
 from kivymd.uix.list import TwoLineListItem
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivy.clock import mainthread
+from kivymd.app import MDApp
 from kivy.metrics import dp  # Importando a função dp
+
+# Import para funções de log
+from utils.log_manager import save_log
 
 # Importando funções utilitárias
 from utils.helpers import (
@@ -48,10 +52,13 @@ class RegistroAlimentacoesScreen(Screen):
                 schedules = data.get("schedules", [])
                 # Chama a função para atualizar a lista de refeições na interface
                 self.update_food_list(schedules)
+                save_log("INFO", "RegistroAlimentacoesScreen", "Lista carregada com sucesso.")
             else:
                 show_error_popup(f"Erro ao buscar os dados: {response.status_code}")
+                save_log("ERROR", "RegistroAlimentacoesScreen", f"Erro ao buscar horários do dispenser {dispenser_code}")
         except Exception as e:
-            print(f"Ocorreu um erro: {e}")
+            save_log("ERROR", "RegistroAlimentacoesScreen", f"Erro: {str(e)}")
+            print(f"Ocorreu um erro: {str(e)}")
 
     def delete_food_schedule(self, food_id):
         """Envia uma solicitação para excluir um registro de alimentação"""
@@ -70,13 +77,17 @@ class RegistroAlimentacoesScreen(Screen):
             if response.status_code == 200:  # Sucesso na exclusão
                 show_success_popup("Registro excluído com sucesso!")
                 self.load_food_schedules()  # Atualiza a lista após a exclusão
+                save_log("INFO", "RegistroAlimentacoesScreen", f"Registro excluído com id:{food_id}.")
             elif response.status_code == 401:  # Unathorized
+                save_log("ERROR", "RegistroAlimentacoesScreen", "Erro de autenticação.")
                 show_error_popup("Erro de autenticação. Por favor,\nrealize o login novamente.")
                 self.manager.current = "login"
             else:
                 show_error_popup(f"Erro ao excluir o registro: {response.status_code}")
+                save_log("ERROR", "RegistroAlimentacoesScreen", f"Erro ao excluir o id:{food_id}")
         except Exception as e:
             show_error_popup(f"Erro de conexão: {str(e)}")
+            save_log("ERROR", "RegistroAlimentacoesScreen", f"Erro: {str(e)}")
 
 
     @mainthread

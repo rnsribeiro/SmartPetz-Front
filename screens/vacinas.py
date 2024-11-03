@@ -9,8 +9,8 @@ from kivy.clock import mainthread
 from kivy.metrics import dp
 from utils.helpers import get_token, get_ip_address  # Supondo que você tenha essas funções utilitárias
 
-API_URL_ANIMAIS = "http://<seu_servidor>/pets"
-API_URL_VACINAS = "http://<seu_servidor>/vaccines"
+# Import para funções de log
+from utils.log_manager import save_log
 
 class VacinaScreen(Screen):
 
@@ -34,10 +34,13 @@ class VacinaScreen(Screen):
                 # Seleciona automaticamente o primeiro animal da lista
                 first_pet = pets[0]
                 self.select_animal(first_pet)
+                save_log("INFO", "VacinaScreen", "Lista de pets carregada com sucesso.")
             else:
                 print("Nenhum animal encontrado.")
+                save_log("INFO", "VacinaScreen", "Nenhum pet encontrado.")
         else:
             print("Erro ao buscar os animais")
+            save_log("ERROR", "VacinaScreen", "Erro ao buscar os pets.")
 
     def populate_animal_dropdown(self, pets):
         """Cria o menu dropdown com a lista de animais."""
@@ -79,8 +82,10 @@ class VacinaScreen(Screen):
         response = requests.delete(url, headers=headers)
         if response.status_code == 200:
             print("Vacina excluída com sucesso!")
+            save_log("INFO", "VacinaScreen", f"Vacina excluída com id:{vaccine_id}.")
             self.on_pre_enter()  # Recarrega as vacinas após a exclusão
         else:
+            save_log("ERROR", "VacinaScreen", f"Erro ao excluir a vacina com id:{vaccine_id}")
             print(f"Erro ao excluir vacina: {response.status_code}")
 
     def load_vacinas(self, pet_id):
@@ -94,7 +99,9 @@ class VacinaScreen(Screen):
         if response.status_code == 200:
             vacinas = response.json()
             self.update_vacina_list(vacinas)
+            save_log("INFO", "VacinaScreen", f"Vacinas carregadas com sucesso.")
         else:
+            save_log("ERROR", "VacinaScreen", "Erro ao buscar as vacinas.")
             print("Erro ao buscar as vacinas")
 
     @mainthread

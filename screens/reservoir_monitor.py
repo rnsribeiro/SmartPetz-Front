@@ -5,6 +5,10 @@ from kivy.properties import NumericProperty
 # Importando funções utilitárias
 from utils.helpers import get_ip_address, save_token, get_token, save_dispenser_code, get_dispenser_code
 
+# Import para funções de log
+from utils.log_manager import save_log
+
+
 class ReservoirMonitor(Screen):
     water_level = NumericProperty(0)
     food_level = NumericProperty(0)
@@ -30,5 +34,9 @@ class ReservoirMonitor(Screen):
                 data = response.json()
                 self.water_level = data["water"]
                 self.food_level = data["food"]
+                save_log("INFO", "ReservoirMonitor", "Níveis de água e ração atualizado com sucesso.")
+            else:
+                save_log("ERROR", "ReservoirMonitor", "Erro ao atualizar os níveis.")
         except requests.exceptions.RequestException as e:
+            save_log("ERROR", "ReservoirMonitor", f"Erro: {str(e)}")
             print(f"Erro de conexão: {e}")

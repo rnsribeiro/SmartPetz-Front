@@ -1,5 +1,6 @@
 import os
 import requests
+import logging
 from datetime import datetime
 from kivymd.app import MDApp
 from kivy.uix.popup import Popup
@@ -24,7 +25,10 @@ from screens.vacinas import VacinaScreen
 from screens.cadastrar_vacina import CadastrarVacinaScreen
 from screens.cadastrar_pet import CadastrarPetScreen
 from screens.listar_pets import ListarPetsScreen
+from screens.historico import HistoricoScreen
 
+# Import para funções de log
+from utils.log_manager import save_log
 
 # Importando funções utilitárias
 from utils.helpers import (
@@ -39,12 +43,19 @@ from utils.helpers import (
 # Define o tamanho da janela principal
 Window.size = (350, 580)
 
+
+logging.basicConfig(level=logging.INFO)
+
 class SmartPetsz(MDApp):
     dispenser_code_file = "dispenser_code.txt"
 
     def build(self):
+        save_log("INFO", "SmartPetsz", "Iniciando app...")
+        save_log("INFO", "SmartPetsz", "Carregando arquivos de configuração...")
         # Carrega o código do dispenser quando o app inicia
         self.load_dispenser_code()
+        # Verifica se o IP já está salvo
+        ip_address = get_ip_address()
 
         # Cria o gerenciador de telas
         self.screen_manager = ScreenManager()
@@ -65,12 +76,10 @@ class SmartPetsz(MDApp):
         Builder.load_file("UI/cadastrar_vacina.kv")
         Builder.load_file("UI/cadastrar_pet.kv")
         Builder.load_file("UI/listar_pets.kv")
+        Builder.load_file("UI/historico.kv")
 
         # Adiciona a tela de pré-carregamento
         self.screen_manager.add_widget(Builder.load_file("./UI/pre_splash.kv"))
-
-        # Verifica se o IP já está salvo
-        ip_address = get_ip_address()
 
         # Adiciona as outras telas ao ScreenManager
         self.screen_manager.add_widget(Login(name="login"))
@@ -87,17 +96,21 @@ class SmartPetsz(MDApp):
         self.screen_manager.add_widget(CadastrarVacinaScreen(name="cadastrar_vacina"))
         self.screen_manager.add_widget(CadastrarPetScreen(name="cadastrar_pet"))
         self.screen_manager.add_widget(ListarPetsScreen(name="listar_pets"))
+        self.screen_manager.add_widget(HistoricoScreen(name="historico"))
+        save_log("INFO", "SmartPetsz", "Telas inicializadas...")
 
+        # Armazena as referências dos itens do Bottom Navigation
+        self.nav_items = {
+            'home_screen': 'nav_home',
+            'vacinas': 'nav_vacina',
+            'registro_alimentacoes': 'nav_registros',
+            'reservoir_monitor': 'nav_monitor',
+            'config': 'nav_config'
+        }
 
         # Navega para a tela de pré-carregamento ou IP
-        self.screen_manager.current = "pre_splash"
-
-        if not ip_address:
-            self.screen_manager.current = "configurar_ip"
-        else:
-            self.screen_manager.current = "pre_splash"
-            #self.screen_manager.current = "listar_pets"
-
+        self.switch_screen("pre_splash")        
+           
         return self.screen_manager
        
     
@@ -106,16 +119,34 @@ class SmartPetsz(MDApp):
         try:
             with open(self.dispenser_code_file, "r") as f:
                 self.dispenser_code = f.read().strip()
+            save_log("INFO", "SmartPetsz", "Configurando o dispenser.")
         except FileNotFoundError:
-            self.dispenser_code = None     
+            self.dispenser_code = None
+            save_log("ERROR", "SmartPetsz", "Dispenser não configurado.")
 
     def switch_screen(self, screen_name):
-        """Método para trocar entre as telas"""
+        # Altera a tela atual
         self.screen_manager.current = screen_name
-   
+        save_log("INFO", "SmartPetsz", f"Mudando para a tela: {screen_name}")
+
+        # Atualiza a cor dos itens do Bottom Navigation para mostrar o item ativo
+        active_color = [0, 0.5, 1, 1]  # Azul
+        inactive_color = [0, 0, 0, 1]  # Preto
+
+        # Reseta a cor de todos os itens para inativo
+        for item in self.nav_items.values():
+            if hasattr(self.root, item):
+                getattr(self.root, item).text_color = inactive_color
+
+        # Define a cor do item ativo
+        if screen_name in self.nav_items:
+            active_item_id = self.nav_items[screen_name]
+            if hasattr(self.root, active_item_id):
+                getattr(self.root, active_item_id).text_color = active_color
 
     def sair_do_app(self):
         """Função para fechar o aplicativo"""
+        save_log("INFO", "SmartPetsz", "Finalizando o aplicativo...")
         self.stop()  # Para fechar o aplicativo
 
     def is_ip_configured(self):
@@ -126,26 +157,7 @@ class SmartPetsz(MDApp):
         # Salva o IP no arquivo de configuração
         with open("config.txt", "w") as config_file:
             config_file.write(ip)
-        self.go_back_to_pre_splash()  
-
-    def go_back_to_login(self):
-        # Volta para a tela de login
-        self.root.current = "login"
-
-    def go_back_to_pre_splash(self):
-        # Volta para a tela de pré-carregamento
-        self.screen_manager.current = "pre_splash"
-
-    def go_to_registrar(self):
-        # Vai para a tela de registro de usuário
-        self.screen_manager.current = "registrar_usuario"
-
-    def go_back_to_home(self):
-        # Volta para a tela de Definir Porção
-        self.root.current = "home_screen"    
-
-    def open_date_picker(self):
-        # Função para abrir um seletor de datas (se precisar adicionar)
-        pass
+        save_log("INFO", "SmartPetsz", "IP configurado com sucesso.")
+        self.switch_screen("home_screen")   
 
 SmartPetsz().run()

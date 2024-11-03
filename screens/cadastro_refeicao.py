@@ -5,18 +5,33 @@ from kivy.clock import Clock
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 
+# Import para funções de log
+from utils.log_manager import save_log
+
 # Importando funções utilitárias
 from utils.helpers import (
     get_ip_address, 
     save_token, 
     get_token, 
+    validate_token,
     save_dispenser_code, 
-    get_dispenser_code,
-    show_error_popup,
+    get_dispenser_code, 
+    show_error_popup, 
     show_success_popup
 )
 
 class CadastroRefeicaoScreen(Screen):
+
+    def on_pre_enter(self):
+        super().on_pre_enter()   
+
+        # Verifica se o usuário está logado
+        token = get_token()
+        if not token or not validate_token(token):  
+            save_log("ERROR", "HomeScreen", "Usuário não logado.")
+            show_error_popup("Favor realizar o login.")          
+            MDApp.get_running_app().switch_screen("login")
+            return
 
     def cadastrar_refeicao(self, hour, minute):
         # Validação para verificar se os valores estão dentro dos limites
@@ -46,6 +61,8 @@ class CadastroRefeicaoScreen(Screen):
         ip_address = get_ip_address()
         token = get_token()
         dispenser_code = get_dispenser_code()
+        # Cria uma instância do aplicativo
+        app = MDApp.get_running_app()
 
         # URL da sua API
         url = f'http://{ip_address}:8000/fooding_schedule/'
@@ -71,16 +88,18 @@ class CadastroRefeicaoScreen(Screen):
         try:
             response = requests.post(url, headers=headers, json=data)
             if response.status_code == 200:  # Sucesso
-                show_success_popup("Refeição cadastrada com sucesso!")   
-                app = MDApp.get_running_app()             
-                app.switch_screen("registro_alimentacoes")
+                show_success_popup("Refeição cadastrada com sucesso!")
+                save_log("INFO", "CadastroRefeicaoScreen", f"Refeição cadastrada para {food_time}")                             
+                MDApp.get_running_app().switch_screen("registro_alimentacoes")
                 self.clear_inputs()
             elif response.status_code == 401:  # Unauthorized
                 show_error_popup("Erro de autenticação. Por favor,\nrealize o login novamente.")
                 self.manager.current = "login"
             else:
                 show_error_popup(f"Erro ao cadastrar a refeição: {response.text}")
+                save_log("ERROR", "CadastroRefeicaoScreen", f"Erro ao cadastrar a refeição para {food_time}")
         except Exception as e:
+            save_log("ERROR", "CadastroRefeicaoScreen", f"Erro de conexão: {str(e)}")
             show_error_popup(f"Erro de conexão: {str(e)}")
 
     def clear_inputs(self):

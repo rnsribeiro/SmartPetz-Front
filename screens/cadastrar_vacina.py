@@ -1,17 +1,41 @@
 import requests
 from kivy.uix.screenmanager import Screen
+from kivymd.app import MDApp
 from kivymd.uix.menu import MDDropdownMenu
 from kivy.clock import mainthread
 from datetime import datetime
-from utils.helpers import get_token, get_ip_address  # Funções utilitárias para pegar o IP e o token
 
-API_URL_ANIMAIS = "http://<seu_servidor>/pets"
-API_URL_VACINAS = "http://<seu_servidor>/vaccines"
+# Importando funções utilitárias
+from utils.helpers import (
+    get_ip_address, 
+    save_token, 
+    get_token, 
+    validate_token,
+    save_dispenser_code, 
+    get_dispenser_code, 
+    show_error_popup, 
+    show_success_popup
+)
 
+# Import para funções de log
+from utils.log_manager import save_log
 
 class CadastrarVacinaScreen(Screen):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.selected_pet = None  # Inicializa selected_pet
 
-    def on_pre_enter(self):
+    def on_pre_enter(self):        
+        super().on_pre_enter()           
+
+        # Verifica se o usuário está logado
+        token = get_token()
+        if not token or not validate_token(token):  
+            save_log("ERROR", "CadastrarVacinaScreen", "Usuário não logado.")
+            show_error_popup("Favor realizar o login.")          
+            MDApp.get_running_app().switch_screen("login")
+            return
+
         # Ao carregar a tela, busque os animais do usuário logado
         self.load_animais()
 
@@ -54,7 +78,7 @@ class CadastrarVacinaScreen(Screen):
     def select_animal(self, pet):
         """Ação ao selecionar um animal."""
         self.ids.animal_dropdown.text = pet["name"]
-        self.selected_pet = pet
+        self.selected_pet = pet  # Define o pet selecionado
         self.animal_menu.dismiss()
 
     def salvar_vacina(self):
@@ -68,14 +92,19 @@ class CadastrarVacinaScreen(Screen):
 
         # Validação simples dos campos
         if not nome_vacina:
-            print("Por favor, preencha todos os campos.")
+            show_error_popup("Por favor, preencha todos os campos.")
             return
 
         # Validar o formato da data
         try:
             data_aplicacao_formatada = datetime.strptime(data_aplicacao, '%d-%m-%Y').strftime('%Y-%m-%d')
         except ValueError:
-            print("Data inválida. Use o formato DD-MM-YYYY.")
+            show_error_popup("Data inválida. Use o formato DD-MM-YYYY.")
+            return
+
+        # Verifique se um pet foi selecionado
+        if not self.selected_pet:            
+            show_error_popup("Por favor, selecione um animal.")
             return
 
         # Dados para enviar para a API
@@ -93,7 +122,9 @@ class CadastrarVacinaScreen(Screen):
 
         response = requests.post(url, headers=headers, json=data)
         if response.status_code == 200:
-            print("Vacina cadastrada com sucesso.")
-            self.manager.current = "vacinas"  # Navegar de volta à tela de vacinas
+            show_success_popup("Vacina cadastrada com sucesso.")
+            save_log("INFO", "CadastrarVacinaScreen", f"Vacina {nome_vacina} cadastrada com sucesso")
+            MDApp.get_running_app().switch_screen("vacinas")
         else:
-            print(f"Erro ao cadastrar vacina: {response.status_code}")
+            save_log("ERROR", "CadastrarVacinaScreen", f"Não foi possível cadastrar a vacina {nome_vacina}")            
+            show_error_popup("Erro ao cadastrar vacina.")
