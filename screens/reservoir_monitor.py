@@ -1,5 +1,5 @@
 import requests
-from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.uix.screenmanager import Screen
 from kivy.properties import NumericProperty
 
 # Importando funções utilitárias
@@ -18,7 +18,6 @@ class ReservoirMonitor(Screen):
         self.update_levels()
 
     def update_levels(self):
-        #app = MDApp.get_running_app()
         ip_address = get_ip_address()
         dispenser_code = get_dispenser_code()
 

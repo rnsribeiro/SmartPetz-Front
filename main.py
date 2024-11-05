@@ -1,11 +1,6 @@
 import os
-import requests
 import logging
-from datetime import datetime
 from kivymd.app import MDApp
-from kivy.uix.popup import Popup
-from kivy.uix.label import Label
-from kivy.properties import NumericProperty
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.lang import Builder
 from kivy.core.window import Window
@@ -32,11 +27,7 @@ from utils.log_manager import save_log
 
 # Importando funções utilitárias
 from utils.helpers import (
-    get_ip_address, 
-    save_token, 
-    get_token, 
-    save_dispenser_code, 
-    get_dispenser_code
+    get_ip_address
 )
 
 

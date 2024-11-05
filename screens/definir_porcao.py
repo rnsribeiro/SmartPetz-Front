@@ -1,20 +1,13 @@
-import requests
 from kivy.uix.screenmanager import Screen
 from kivymd.app import MDApp
 from kivymd.uix.menu import MDDropdownMenu
-from kivymd.uix.button import MDFlatButton
-from kivy.metrics import dp
 
 # Import para funções de log
 from utils.log_manager import save_log
 
 # Importando funções utilitárias
 from utils.helpers import (
-    get_ip_address,
-    save_token,
     get_token,
-    save_dispenser_code,
-    get_dispenser_code,
     validate_token,
     show_error_popup,
     show_success_popup

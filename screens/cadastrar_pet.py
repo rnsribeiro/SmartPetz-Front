@@ -1,16 +1,12 @@
 import requests
 from kivy.uix.screenmanager import Screen
 from kivymd.app import MDApp
-from datetime import datetime
 
 # Importando funções utilitárias
 from utils.helpers import (
-    get_ip_address, 
-    save_token, 
+    get_ip_address,
     get_token, 
     validate_token,
-    save_dispenser_code, 
-    get_dispenser_code, 
     show_error_popup, 
     show_success_popup
 )

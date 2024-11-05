@@ -1,8 +1,5 @@
 import requests
-from kivy.uix.popup import Popup
-from kivy.uix.label import Label
 from kivy.uix.screenmanager import (
-    ScreenManager, 
     Screen
 )
 
@@ -12,23 +9,16 @@ from utils.log_manager import save_log
 # Importando funções utilitárias
 from utils.helpers import (
     get_ip_address, 
-    save_token, get_token, 
-    save_dispenser_code, 
-    get_dispenser_code, 
-    show_error_popup, 
+    show_error_popup,
     show_success_popup
 )
 
 class RegistrarUsuario(Screen):
     def registrar_usuario(self, username, name, email, password, confirm_password):
-        # Obtém o IP configurado usando o método get_running_app()
-        #app = MDApp.get_running_app()
 
         if password != confirm_password:
             show_error_popup("As senhas são diferentes!")
             return
-
-        # Verifica se o campo username está vazio
 
         ip_address = get_ip_address()
         url = f"http://{ip_address}:8000/user"  # Usa o IP configurado

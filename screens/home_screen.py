@@ -1,7 +1,5 @@
 import requests
 from datetime import datetime
-from kivy.uix.popup import Popup
-from kivy.uix.label import Label
 from kivy.uix.screenmanager import Screen
 from kivymd.app import MDApp
 from kivy.properties import NumericProperty
@@ -12,10 +10,8 @@ from utils.log_manager import save_log
 # Importando funções utilitárias
 from utils.helpers import (
     get_ip_address, 
-    save_token, 
-    get_token, 
+    get_token,
     validate_token,
-    save_dispenser_code, 
     get_dispenser_code,
     show_error_popup, 
     show_success_popup
@@ -61,8 +57,7 @@ class HomeScreen(Screen):
         self.check_levels()  # Executa check_levels quando a tela é exibida
 
     def create_fooding_schedule(self):
-        #app = MDApp.get_running_app()  # Certifique-se de obter a instância do app
-        ip_address = get_ip_address()        
+        ip_address = get_ip_address()
         dispenser_code = get_dispenser_code()
         token = get_token()
         print(dispenser_code)
@@ -106,8 +101,6 @@ class HomeScreen(Screen):
             save_log("ERROR", "HomeScreen", f"Erro: {str(e)}")
 
     def load_dispenser_data(self):
-        # Obtém a instância do aplicativo
-        #app = MDApp.get_running_app()
         dispenser_code = get_dispenser_code()
         if dispenser_code:
             self.ids.dispenser_code_label.text = f"Dispenser: {dispenser_code}"
@@ -115,7 +108,6 @@ class HomeScreen(Screen):
             self.ids.dispenser_code_label.text = "Nenhum dispenser cadastrado"
 
     def update_dispenser_levels(self):
-        #app = MDApp.get_running_app()
         ip_address = get_ip_address()
         dispenser_code = get_dispenser_code()
 

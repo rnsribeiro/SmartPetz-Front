@@ -1,4 +1,3 @@
-import requests
 from kivy.uix.screenmanager import Screen
 from kivy.clock import mainthread
 from pymongo import MongoClient
@@ -6,7 +5,7 @@ from kivymd.uix.list import ThreeLineListItem
 from datetime import datetime
 from kivymd.app import MDApp
 
-from utils.helpers import get_token, validate_token
+from utils.helpers import get_token, validate_token, show_error_popup
 from utils.log_manager import save_log
 
 # Configuração do MongoDB

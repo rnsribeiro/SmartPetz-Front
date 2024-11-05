@@ -1,9 +1,4 @@
-import logging
-import os
 import requests
-from datetime import datetime
-from kivy.uix.popup import Popup
-from kivy.uix.label import Label
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivymd.app import MDApp
 
@@ -12,12 +7,10 @@ from utils.log_manager import save_log
 
 # Importando funções utilitárias
 from utils.helpers import (
-    get_ip_address, 
-    save_token, 
+    get_ip_address,
     get_token, 
     validate_token,
-    save_dispenser_code, 
-    get_dispenser_code, 
+    save_dispenser_code,
     show_error_popup, 
     show_success_popup
 )
@@ -42,7 +35,6 @@ class CadastrarDispenser(Screen):
             return
 
         # Obtém o IP e o token configurados
-        #app = MDApp.get_running_app()
         ip_address = get_ip_address()
 
         url = f"http://{ip_address}:8000/dispenser"
@@ -81,9 +73,6 @@ class CadastrarDispenser(Screen):
         if not code:
             show_error_popup("O campo de código não pode estar vazio!")
             return
-
-        # Obtém o IP e o token configurados
-        #app = MDApp.get_running_app()
 
         try:
             save_dispenser_code(code)

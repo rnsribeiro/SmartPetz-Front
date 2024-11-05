@@ -8,6 +8,9 @@ __pycache__/
 
 # Folder and files
 bin/
+.buildozer/
+.idea/
+buildozer.spec
 config.txt
 dispenser_code.txt
 token.txt

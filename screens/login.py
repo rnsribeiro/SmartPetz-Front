@@ -1,6 +1,4 @@
 from kivy.uix.screenmanager import Screen
-from kivy.uix.popup import Popup
-from kivy.uix.label import Label
 import requests
 from kivymd.app import MDApp
 
@@ -11,11 +9,7 @@ from utils.log_manager import save_log
 from utils.helpers import (
     get_ip_address, 
     save_token, 
-    get_token, 
-    save_dispenser_code, 
-    get_dispenser_code, 
-    show_error_popup, 
-    show_success_popup
+    show_error_popup,
 )
 
 class Login(Screen):

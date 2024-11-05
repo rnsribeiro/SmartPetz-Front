@@ -4,7 +4,6 @@ from kivymd.uix.button import MDIconButton
 from kivymd.uix.list import TwoLineListItem
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivy.clock import mainthread
-from kivymd.app import MDApp
 from kivy.metrics import dp  # Importando a função dp
 
 # Import para funções de log
@@ -12,10 +11,8 @@ from utils.log_manager import save_log
 
 # Importando funções utilitárias
 from utils.helpers import (
-    get_ip_address, 
-    save_token, 
-    get_token, 
-    save_dispenser_code, 
+    get_ip_address,
+    get_token,
     get_dispenser_code,
     show_error_popup,
     show_success_popup

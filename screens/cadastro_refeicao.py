@@ -1,20 +1,15 @@
 from kivy.uix.screenmanager import Screen
 from kivymd.app import MDApp
 import requests
-from kivy.clock import Clock
-from kivy.uix.popup import Popup
-from kivy.uix.label import Label
 
 # Import para funções de log
 from utils.log_manager import save_log
 
 # Importando funções utilitárias
 from utils.helpers import (
-    get_ip_address, 
-    save_token, 
+    get_ip_address,
     get_token, 
     validate_token,
-    save_dispenser_code, 
     get_dispenser_code, 
     show_error_popup, 
     show_success_popup
@@ -61,8 +56,6 @@ class CadastroRefeicaoScreen(Screen):
         ip_address = get_ip_address()
         token = get_token()
         dispenser_code = get_dispenser_code()
-        # Cria uma instância do aplicativo
-        app = MDApp.get_running_app()
 
         # URL da sua API
         url = f'http://{ip_address}:8000/fooding_schedule/'

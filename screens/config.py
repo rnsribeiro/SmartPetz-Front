@@ -1,6 +1,6 @@
 import os
 import requests
-from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.uix.screenmanager import Screen
 from kivymd.app import MDApp
 
 # Import para funções de log
@@ -8,12 +8,9 @@ from utils.log_manager import save_log
 
 # Importando funções utilitárias
 from utils.helpers import (
-    get_ip_address, 
-    save_token, 
+    get_ip_address,
     get_token, 
     validate_token,
-    save_dispenser_code, 
-    get_dispenser_code, 
     show_error_popup, 
     show_success_popup
 )
@@ -51,8 +48,6 @@ class ConfigScreen(Screen):
                 self.ids.label_username.text = user_data['name']
 
                 save_log("INFO", "ConfigScreen", f"Usuário {user_data['name']} carregado com sucesso.")
-                #config_screen = self.screen_manager.get_screen('config')
-                #config_screen.user_name = user_data['name']  # Atualiza o nome do usuário
             elif response.status_code == 401:
                 show_error_popup("Erro de autenticação. Por favor,\nrealize o login novamente.")
                 save_log("ERROR", "ConfigScreen", "Erro de autenticação.")
