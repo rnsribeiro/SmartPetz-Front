@@ -54,7 +54,7 @@ class CadastrarDispenser(Screen):
 
             if response.status_code == 200:                
                 save_dispenser_code(code)
-                show_success_popup("Dispenser cadastrado com sucesso!")
+                #show_success_popup("Dispenser cadastrado com sucesso!")
                 # Quando um dispenser é cadastrado
                 save_log("INFO", "CadastrarDispenser", f"Dispenser {code} cadastrado com sucesso")
                 MDApp.get_running_app().switch_screen("home_screen")
@@ -76,7 +76,7 @@ class CadastrarDispenser(Screen):
 
         try:
             save_dispenser_code(code)
-            show_success_popup("Dispenser configurado com sucesso!")
+            #show_success_popup("Dispenser configurado com sucesso!")
             # Quando um dispenser é cadastrado
             save_log("INFO", "CadastrarDispenser", f"Dispenser {code} configurado com sucesso")
             MDApp.get_running_app().switch_screen("home_screen")

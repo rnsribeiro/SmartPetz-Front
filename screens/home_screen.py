@@ -29,7 +29,6 @@ class HomeScreen(Screen):
         ip_address = get_ip_address()
         if not ip_address:
             save_log("ERROR", "HomeScreen", "IP não configurado.")
-            show_error_popup("Favor configurar o IP.")
             # se o IP não estiver configurado, navega para a tela de configuração de IP
             MDApp.get_running_app().switch_screen("configurar_ip")
             return
@@ -38,7 +37,6 @@ class HomeScreen(Screen):
         token = get_token()
         if not token or not validate_token(token):  
             save_log("ERROR", "HomeScreen", "Usuário não logado.")
-            show_error_popup("Favor realizar o login.")          
             MDApp.get_running_app().switch_screen("login")
             return
         
@@ -46,7 +44,6 @@ class HomeScreen(Screen):
         dispenser_code = get_dispenser_code()
         if not dispenser_code:
             save_log("ERROR", "HomeScreen", "Dispenser não configurado.")
-            show_error_popup("Favor configurar o código do dispenser.")
             MDApp.get_running_app().switch_screen("cadastrar_dispenser")
             return        
 
@@ -135,11 +132,11 @@ class HomeScreen(Screen):
         # Habilita o markup do label
         self.ids.water_warning.markup = True
         self.ids.food_warning.markup = True
-        self.ids.quantidade_faltante_label.markup = True
+        #self.ids.quantidade_faltante_label.markup = True
 
         # Configura o texto e a cor para o nível de água
         if self.water_level < 40:
-            self.ids.water_warning.text = f"[color=#FF0000]Nível de água está baixo! Faltam {water_diff}% para o normal.[/color]"
+            self.ids.water_warning.text = f"[color=#FF0000]Nível de água está baixo![/color]"
             # self.ids.water_warning.text_color = [1, 0, 0, 1]  # Vermelho
         elif 40 >= self.water_level <= 60:
             self.ids.water_warning.text = "[color=#FFA500]Nível de água está normal.[/color]"
@@ -150,7 +147,7 @@ class HomeScreen(Screen):
 
         # Configura o texto e a cor para o nível de ração
         if self.food_level < 40:
-            self.ids.food_warning.text = f"[color=#FF0000]Nível de ração está baixo! Faltam {food_diff}% para o normal.[/color]"
+            self.ids.food_warning.text = f"[color=#FF0000]Nível de ração está baixo![/color]"
             # self.ids.food_warning.text_color = [0.8, 0.2, 0.2, 1]  # Vermelho
         elif 40 <= self.food_level <= 60:
             self.ids.food_warning.text = "[color=#FFA500]Nível de ração está normal.[/color]"
@@ -160,12 +157,12 @@ class HomeScreen(Screen):
             # self.ids.food_warning.text_color = [0.2, 0.8, 0.2, 1]  # Verde
 
         # Exibe a quantidade faltante para o nível normal (amarelo)
-        if water_diff > 0 or food_diff > 0:
-            self.ids.quantidade_faltante_label.text = (
-                f"[color=#FFA500]Faltam {water_diff}% de água e {food_diff}% de ração para o nível normal.[/color]"
-            )
-        else:
-            self.ids.quantidade_faltante_label.text = "[color=#00FF00]Níveis de água e ração estão bons.[/color]"
+        # if water_diff > 0 or food_diff > 0:
+        #     self.ids.quantidade_faltante_label.text = (
+        #         f"[color=#FFA500]Faltam {water_diff}% de água e {food_diff}% de ração para o nível normal.[/color]"
+        #     )
+        # else:
+        #     self.ids.quantidade_faltante_label.text = "[color=#00FF00]Níveis de água e ração estão bons.[/color]"
 
     def get_amount(self):
         """Verifica se existe o arquivo porcao.txt e retorna o valor da porção. Se não existir, retorna 50 como padrão."""
